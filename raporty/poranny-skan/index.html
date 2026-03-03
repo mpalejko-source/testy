@@ -226,6 +226,32 @@
       box-shadow: var(--shadow);
       font-size:18px;
     }
+/* ====== WYRÓŻNIONY BLOK RAPORTU ====== */
+.reportHeader{
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: .3px;
+  padding: 14px 16px;
+  border: 1px solid rgba(125,211,252,.35);
+  background: rgba(125,211,252,.08);
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.reportHeader .date{
+  color: rgba(125,211,252,.85);
+}
+
+.reportHeader .pill{
+  background: rgba(125,211,252,.12);
+  border-color: rgba(125,211,252,.35);
+  color: rgba(234,240,255,.95);
+}
+
+
+
+    
   </style>
 </head>
 
@@ -485,8 +511,9 @@
       if(isNonEmptyText(fx)) blocksHtml += section("💵", (LANG==="pl"?"FX / Makro":"FX / Macro"), fx, []);
       if(!blocksHtml) blocksHtml = `<p class="text">—</p>`;
     }
-
-    document.getElementById("main").innerHTML = `
+    
+ document.getElementById("main").innerHTML = `
+  <div class="reportHeader"> `
       <div>
         <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap">
           <div>
