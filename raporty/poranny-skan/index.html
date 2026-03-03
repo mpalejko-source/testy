@@ -281,7 +281,17 @@
   color: rgba(234,240,255,.90);
 }
 
+/* Cały komentarz (lead + treść) w kolorze accent i kursywie, bez zmiany rozmiaru */
+.reportBlock .lead,
+.reportBlock .text{
+  color: var(--accent) !important;
+  font-style: italic;
+  font-size: inherit; /* zostawia Twoje obecne rozmiary */
+}
 
+/* Opcjonalnie: żeby wyglądało czytelniej przy niebieskim tekście */
+.reportBlock .lead{ color: var(--accent) !important; }
+.reportBlock .text{ color: var(--accent) !important; }
     
   </style>
 </head>
