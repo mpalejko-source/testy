@@ -1,110 +1,662 @@
 <!doctype html>
 <html lang="pl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACE – Analiza wg ACE</title>
 
-<title>ACE – Analiza wg ACE</title>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, system-ui;
-  background:#0b1220;
-  color:#eaf0ff;
-}
+  <script>
+    const BASE = location.hostname.endsWith("github.io")
+      ? "/" + (location.pathname.split("/").filter(Boolean)[0] || "") + "/"
+      : "/";
 
-.wrap{
-  max-width:900px;
-  margin:auto;
-  padding:40px 20px;
-}
+    function url(path){
+      return BASE + String(path || "").replace(/^\/+/, "");
+    }
+  </script>
 
-.box{
-  border:2px solid rgba(125,211,252,.7);
-  border-radius:18px;
-  padding:28px;
-  background:linear-gradient(135deg, rgba(125,211,252,.14), rgba(167,139,250,.08));
-  box-shadow:0 18px 40px rgba(0,0,0,.5);
-}
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a31;
+      --card2:#15223f;
+      --border:rgba(255,255,255,.10);
+      --text:#eaf0ff;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.56);
+      --shadow:0 14px 34px rgba(0,0,0,.36);
+      --radius:18px;
 
-h1{
-  margin:0 0 12px 0;
-  font-size:30px;
-  font-weight:900;
-}
+      --hiBorder:rgba(125,211,252,.72);
+      --hiBg1:rgba(125,211,252,.12);
+      --hiBg2:rgba(167,139,250,.08);
+      --gold:rgba(250,204,21,.95);
+      --goldText:#0b1220;
+    }
 
-.badge{
-  display:inline-block;
-  background:#facc15;
-  color:#0b1220;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:900;
-  margin-bottom:14px;
-}
+    *{ box-sizing:border-box; }
 
-p{
-  color:rgba(234,240,255,.85);
-  line-height:1.6;
-  font-size:15px;
-}
+    body{
+      margin:0;
+      font-family:Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
 
-.info{
-  margin-top:18px;
-  padding:16px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.05);
-  font-size:14px;
-}
+    .wrap{
+      max-width:1160px;
+      margin:0 auto;
+      padding:26px 18px 44px;
+    }
 
-.back{
-  margin-top:24px;
-  display:inline-block;
-  text-decoration:none;
-  color:#eaf0ff;
-  border:1px solid rgba(255,255,255,.15);
-  padding:10px 14px;
-  border-radius:999px;
-  font-size:13px;
-}
-</style>
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .topTitle{
+      text-align:center;
+      font-size:34px;
+      font-weight:950;
+      line-height:1.12;
+      color:#fff;
+      margin:0;
+      text-shadow:0 10px 24px rgba(0,0,0,.35);
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:14px;
+      align-items:center;
+    }
+
+    .logo{
+      height:56px;
+      width:auto;
+      display:block;
+      filter:drop-shadow(0 10px 24px rgba(0,0,0,.45));
+    }
+
+    .centerBar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .pill, .backLink{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      padding:10px 14px;
+      border-radius:999px;
+      color:var(--text);
+      font-size:13px;
+      box-shadow:var(--shadow);
+      white-space:nowrap;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      text-decoration:none;
+    }
+
+    .backLink{
+      font-weight:900;
+      transition:transform .08s ease, border-color .08s ease, background .08s ease;
+    }
+
+    .backLink:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.18);
+      background:rgba(255,255,255,.07);
+    }
+
+    .rightSlogan{
+      text-align:right;
+      font-style:italic;
+      color:rgba(250,204,21,.80);
+      text-shadow:0 10px 24px rgba(0,0,0,.35);
+      line-height:1.08;
+      margin:0;
+      font-size:28px;
+      font-weight:500;
+      max-width:360px;
+    }
+    .rightSlogan .l1,
+    .rightSlogan .l2{ display:block; }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border:2px solid var(--hiBorder);
+      border-radius:24px;
+      background:linear-gradient(135deg, var(--hiBg1), var(--hiBg2));
+      box-shadow:0 18px 46px rgba(0,0,0,.48);
+      padding:24px;
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(720px 260px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+        radial-gradient(720px 280px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      pointer-events:none;
+    }
+
+    .hero > *{ position:relative; }
+
+    .heroMeta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      box-shadow:0 10px 24px rgba(0,0,0,.20);
+      white-space:nowrap;
+    }
+
+    .badge.primary{
+      border-color:rgba(125,211,252,.45);
+      background:rgba(125,211,252,.16);
+    }
+
+    .badge.gold{
+      border-color:rgba(250,204,21,.70);
+      background:var(--gold);
+      color:var(--goldText);
+    }
+
+    .heroGrid{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .heroTitle{
+      margin:0;
+      font-size:36px;
+      line-height:1.06;
+      font-weight:950;
+      color:#fff;
+      letter-spacing:.1px;
+    }
+
+    .heroLead{
+      margin:14px 0 0 0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.65;
+      max-width:760px;
+    }
+
+    .heroBottom{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .miniStat{
+      min-width:150px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:12px 14px;
+      box-shadow:0 10px 24px rgba(0,0,0,.16);
+    }
+
+    .miniStat .k{
+      display:block;
+      font-size:11px;
+      font-weight:900;
+      color:var(--muted2);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:5px;
+    }
+
+    .miniStat .v{
+      display:block;
+      font-size:16px;
+      font-weight:950;
+      color:#fff;
+      line-height:1.2;
+    }
+
+    .heroSide{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border-radius:18px;
+      padding:18px;
+      min-height:100%;
+    }
+
+    .sideTitle{
+      margin:0 0 8px 0;
+      font-size:13px;
+      font-weight:950;
+      color:rgba(234,240,255,.88);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .sideText{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .heroGlow{
+      margin-top:16px;
+      height:122px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(180deg, rgba(11,18,32,.16), rgba(11,18,32,.60)),
+        radial-gradient(circle at 24% 35%, rgba(125,211,252,.22), transparent 30%),
+        radial-gradient(circle at 76% 32%, rgba(167,139,250,.22), transparent 28%),
+        radial-gradient(circle at 50% 70%, rgba(250,204,21,.10), transparent 20%),
+        rgba(255,255,255,.02);
+      box-shadow:
+        inset 0 18px 40px rgba(0,0,0,.38),
+        0 10px 30px rgba(0,0,0,.28);
+    }
+
+    .mainGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .tripleGrid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+    }
+
+    .doubleGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.12), transparent 60%),
+        radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.10), transparent 60%);
+      pointer-events:none;
+    }
+
+    .card > *{ position:relative; }
+
+    .sectionTitle{
+      margin:0 0 12px 0;
+      font-size:18px;
+      font-weight:950;
+      color:#fff;
+      line-height:1.15;
+    }
+
+    .text{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.68;
+    }
+
+    .scopeItem{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:14px;
+      height:100%;
+    }
+
+    .scopeItem .h{
+      margin:0 0 8px 0;
+      font-size:14px;
+      font-weight:950;
+      color:#fff;
+    }
+
+    .scopeItem .p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .notice{
+      border:1px solid rgba(250,204,21,.28);
+      background:linear-gradient(180deg, rgba(250,204,21,.10), rgba(255,255,255,.03));
+    }
+
+    .noticeBox{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .noticeTop{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .warn{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(250,204,21,.18);
+      border:1px solid rgba(250,204,21,.35);
+      font-size:16px;
+      flex:0 0 auto;
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    .listRow{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:12px 13px;
+    }
+
+    .listRow strong{
+      display:block;
+      color:#fff;
+      font-size:13px;
+      font-weight:950;
+      margin-bottom:4px;
+    }
+
+    .listRow span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .footerBar{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color:var(--muted2);
+      font-size:12px;
+    }
+
+    @media (max-width: 980px){
+      .heroGrid,
+      .tripleGrid,
+      .doubleGrid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .topTitle{ font-size:28px; }
+
+      .headerRow{
+        grid-template-columns:1fr;
+        justify-items:center;
+        gap:10px;
+      }
+
+      .rightSlogan{
+        text-align:center;
+        font-size:23px;
+        max-width:none;
+      }
+
+      .logo{ height:46px; }
+
+      .heroTitle{ font-size:28px; }
+      .heroLead{ font-size:14px; }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<div class="wrap">
+    <header>
+      <h1 class="topTitle">ACE – Analiza wg ACE</h1>
 
-<div class="box">
+      <div class="headerRow">
+        <img src="" alt="ACE Group" class="logo" id="logoImg">
 
-<div class="badge">Analiza ACE</div>
+        <div class="centerBar">
+          <a class="backLink" href="../../">
+            <span>←</span>
+            <span>Powrót do panelu głównego</span>
+          </a>
 
-<h1>Analiza wg ACE</h1>
+          <div class="pill" id="asof">
+            <span>📍</span>
+            <span>Olsztyn —</span>
+          </div>
+        </div>
 
-<p>
-W tej sekcji wkrótce pojawią się nasze autorskie komentarze rynkowe
-i syntetyczne analizy przygotowywane przez zespół
-<strong>Agri Commodity Experts</strong>.
-</p>
+        <p class="rightSlogan">
+          <span class="l1">Nasza współpraca</span>
+          <span class="l2">buduje sukces !</span>
+        </p>
+      </div>
+    </header>
 
-<p>
-Celem tej sekcji będzie przedstawienie w jednym miejscu najważniejszych
-wniosków rynkowych dotyczących zbóż, roślin oleistych,
-rynku pasz oraz walut.
-</p>
+    <section class="hero">
+      <div class="heroMeta">
+        <span class="badge primary">Analiza ACE</span>
+        <span class="badge gold">Sekcja premium</span>
+      </div>
 
-<div class="info">
-🚧 Sekcja jest obecnie w przygotowaniu.  
-Pierwsze analizy pojawią się w najbliższych dniach.
-</div>
+      <div class="heroGrid">
+        <div>
+          <h2 class="heroTitle">Autorska analiza rynkowa ACE</h2>
 
-<a class="back" href="../../">← Powrót do panelu głównego</a>
+          <p class="heroLead">
+            W tej sekcji wkrótce pojawią się nasze autorskie komentarze rynkowe, syntetyczne
+            oceny sytuacji oraz praktyczne wnioski dla klientów działających na rynku zbóż,
+            pasz, roślin oleistych i walut. Celem jest pokazanie w jednym miejscu tego,
+            co według ACE naprawdę ma dziś znaczenie dla decyzji zakupowych i zarządzania ryzykiem.
+          </p>
 
-</div>
+          <div class="heroBottom">
+            <div class="miniStat">
+              <span class="k">Zakres</span>
+              <span class="v">Agro • FX • Zakupy</span>
+            </div>
 
-</div>
+            <div class="miniStat">
+              <span class="k">Forma</span>
+              <span class="v">Komentarz ekspercki</span>
+            </div>
 
+            <div class="miniStat">
+              <span class="k">Status</span>
+              <span class="v">W przygotowaniu</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="heroSide">
+          <div>
+            <p class="sideTitle">Co tu będzie</p>
+            <p class="sideText">
+              Krótka, konkretna i praktyczna analiza przygotowana przez ACE:
+              kierunek rynku, najważniejsze impulsy cenowe oraz wnioski przydatne
+              w codziennym podejmowaniu decyzji.
+            </p>
+          </div>
+
+          <div class="heroGlow"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mainGrid">
+      <div class="card notice">
+        <div class="noticeBox">
+          <div class="noticeTop">
+            <div class="warn">🚧</div>
+            <h3 class="sectionTitle" style="margin:0;">Sekcja jest obecnie w przygotowaniu</h3>
+          </div>
+
+          <p class="text">
+            Pracujemy nad uruchomieniem tej części panelu tak, aby prezentowała analizy w możliwie
+            najbardziej użytecznej i przejrzystej formie. Dziękujemy za cierpliwość — pierwsze publikacje
+            pojawią się wkrótce.
+          </p>
+        </div>
+      </div>
+
+      <div class="tripleGrid">
+        <div class="scopeItem">
+          <p class="h">Ocena rynku</p>
+          <p class="p">
+            Krótkie podsumowanie bieżącej sytuacji: co wspiera ceny, co je ogranicza
+            i jaki kierunek ACE uznaje obecnie za najważniejszy.
+          </p>
+        </div>
+
+        <div class="scopeItem">
+          <p class="h">Czynniki decyzyjne</p>
+          <p class="p">
+            Najważniejsze wydarzenia i dane wpływające na rynek: pogoda, bilanse,
+            eksport, fundusze, waluty, energia oraz geopolityka.
+          </p>
+        </div>
+
+        <div class="scopeItem">
+          <p class="h">Wnioski praktyczne</p>
+          <p class="p">
+            Zwięzłe wskazanie, co według ACE warto dziś obserwować z perspektywy
+            zakupów surowców, momentu zawierania kontraktów i zarządzania ryzykiem.
+          </p>
+        </div>
+      </div>
+
+      <div class="doubleGrid">
+        <div class="card">
+          <h3 class="sectionTitle">Planowany zakres komentarzy</h3>
+
+          <div class="list">
+            <div class="listRow">
+              <strong>Zboża i oleiste</strong>
+              <span>Pszenica, kukurydza, rzepak, soja, śruty i kluczowe relacje cenowe.</span>
+            </div>
+
+            <div class="listRow">
+              <strong>Rynek pasz</strong>
+              <span>Interpretacja zmian kosztów surowcowych z punktu widzenia odbiorców paszowych.</span>
+            </div>
+
+            <div class="listRow">
+              <strong>Waluty i makro</strong>
+              <span>Wpływ USD/PLN, EUR/PLN, EUR/USD i otoczenia makro na wyceny w Polsce.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="sectionTitle">Jak chcemy to prezentować</h3>
+
+          <div class="list">
+            <div class="listRow">
+              <strong>Krótko i konkretnie</strong>
+              <span>Bez zbędnego przeładowania informacjami — tylko to, co realnie wpływa na decyzje.</span>
+            </div>
+
+            <div class="listRow">
+              <strong>W języku rynku</strong>
+              <span>Styl profesjonalny, ale czytelny dla klientów pracujących na co dzień z zakupami.</span>
+            </div>
+
+            <div class="listRow">
+              <strong>Spójnie z panelem ACE</strong>
+              <span>Analiza będzie uzupełnieniem Porannego Skanu, Portfeli ACE i raportów tygodniowych.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footerBar">
+      <div>Agri Commodity Experts Sp. z o.o.</div>
+      <div>ACE Reserved 2026</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("logoImg").src = url("logo.png");
+
+    try{
+      const now = new Date();
+      const date = now.toLocaleDateString("pl-PL");
+      const time = now.toLocaleTimeString("pl-PL", { hour:"2-digit", minute:"2-digit" });
+      const asofEl = document.getElementById("asof");
+      if(asofEl){
+        asofEl.innerHTML = `<span>📍</span><strong>Olsztyn</strong> <span>🕒</span>${date} ${time}`;
+      }
+    }catch(e){}
+  </script>
 </body>
 </html>
