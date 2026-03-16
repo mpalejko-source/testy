@@ -321,7 +321,35 @@
   color:var(--muted2);
   white-space:nowrap;
 }
+.updateLine{
+  margin-top:16px;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  justify-content:center;
+}
 
+.updateBadge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);
+  color:rgba(234,240,255,.92);
+  white-space:nowrap;
+}
+
+.updateBadge.today{
+  background:#FACC15;
+  border-color:#FACC15;
+  color:#111827;
+  font-weight:900;
+}
+    
     /* ===== TICKER ===== */
     .ticker{
       margin-top:10px;
@@ -1480,12 +1508,18 @@
           <div class="fHero" id="psHero"></div>
           <div class="fHeroNote">Skan newsów + szybki kontekst rynkowy (agro • FX)</div>
 
-          <div class="bottomMeta">
-            <div class="left"></div>
-            <div class="right">
-              ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
-            </div>
-          </div>
+       <div class="updateLine">
+  <span class="updateBadge ${isToday(updatedISO) ? "today" : ""}">
+    Aktualizacja: ${updatedLabel}
+  </span>
+</div>
+
+<div class="bottomMeta">
+  <div class="left"></div>
+  <div class="right">
+    ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
+  </div>
+</div>
         </a>
       `;
 
@@ -1586,10 +1620,18 @@ function renderPortfolioFeatured(items){
 
       <p class="fTitle">ZAKUPY ACE - REKOMENDACJE<br>BENCHMARK</p>
 
-      <div class="pHero pHeroTight">
-        <div class="thumbGrid thumbGridBig">${thumbs}</div>
-      </div>
-    </div>
+    <div class="pHero pHeroTight">
+  <div class="thumbGrid thumbGridBig">${thumbs}</div>
+</div>
+
+<div class="updateLine">
+  <span class="updateBadge ${isPortfolioToday ? "today" : ""}">
+    Aktualizacja: ${updLabel}
+  </span>
+</div>
+
+</div>
+`;
   `;
 }
 
@@ -1634,6 +1676,12 @@ function renderPortfolioFeatured(items){
             </p>
 
             <div class="analysisHeroMini"></div>
+
+            <div class="updateLine">
+  <span class="updateBadge ${isToday(updISO) ? "today" : ""}">
+    Aktualizacja: ${updLabel}
+  </span>
+</div>
           </div>
         </a>
       `;
