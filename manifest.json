@@ -211,8 +211,8 @@
     "section": "Raporty",
     "category": "zboza"
   },
-  "Analiza wg ACE": {
-  "name": "Analiza wg ACE",
+  "ACE Market View": {
+  "name": "ACE Market View",
   "description": "Autorska analiza rynkowa ACE.",
   "path": "raporty/analiza-ace/",
   "updated": "2026-03-16",
