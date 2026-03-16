@@ -1461,75 +1461,67 @@
       `;
     }
 
-    function renderFeatured(items, scan){
-      const wrap = document.getElementById("featuredWrap");
-      const ps = items.find(x => x.id === FEATURED_KEY);
+function renderFeatured(items, scan){
+  const wrap = document.getElementById("featuredWrap");
+  const ps = items.find(x => x.id === FEATURED_KEY);
 
-      if(!ps){
-        wrap.innerHTML = `<div class="error">Brak wpisu <code>${FEATURED_KEY}</code> w <code>manifest.json</code>.</div>`;
-        return;
-      }
+  if(!ps){
+    wrap.innerHTML = `<div class="error">Brak wpisu <code>${FEATURED_KEY}</code> w <code>manifest.json</code>.</div>`;
+    return;
+  }
 
-      const todayScan = pickTodayFromScan(scan);
+  const todayScan = pickTodayFromScan(scan);
 
-      const updatedISO  = (todayScan && todayScan.date) ? todayScan.date : (ps.updated || "");
-      const updatedTime = (todayScan && todayScan.time) ? todayScan.time : "";
-      const updatedLabel = updatedISO
-        ? (updatedTime ? `${fmtDatePL(updatedISO)} | ${updatedTime}` : fmtDatePL(updatedISO))
-        : "—";
+  const updatedISO  = (todayScan && todayScan.date) ? todayScan.date : (ps.updated || "");
+  const updatedTime = (todayScan && todayScan.time) ? todayScan.time : "";
+  const updatedLabel = updatedISO
+    ? (updatedTime ? `${fmtDatePL(updatedISO)} | ${updatedTime}` : fmtDatePL(updatedISO))
+    : "—";
 
-      let nextTxt = "—";
-      if(todayScan && todayScan.date){
-        const dt = parseISODateLocal(todayScan.date);
-        if(dt) nextTxt = fmtDatePrettyPL(nextBusinessDay(dt));
-      } else if ((ps.next_issue || "").trim()){
-        nextTxt = fmtDatePL(ps.next_issue.trim());
-      }
+  let nextTxt = "—";
+  if(todayScan && todayScan.date){
+    const dt = parseISODateLocal(todayScan.date);
+    if(dt) nextTxt = fmtDatePrettyPL(nextBusinessDay(dt));
+  } else if ((ps.next_issue || "").trim()){
+    nextTxt = fmtDatePL(ps.next_issue.trim());
+  }
 
-      const updBadge = updatedISO
-        ? (isToday(updatedISO)
-            ? `<span class="fUpdToday">Aktualizacja: ${updatedLabel}</span>`
-            : `<span class="badge">Aktualizacja: ${updatedLabel}</span>`)
-        : ``;
+  wrap.innerHTML = `
+    <a class="featured" href="${safePath(ps.path)}">
+      <div class="fMetaLine">
+        <div class="leftBox">
+          <span class="badge primary">Poranny skan</span>
+        </div>
+      </div>
 
-      wrap.innerHTML = `
-        <a class="featured" href="${safePath(ps.path)}">
-          <div class="fMetaLine">
-            <div class="leftBox">
-              <span class="badge primary">Poranny skan</span>
-            </div>
-            <div class="rightBox">
-              ${updBadge}
-            </div>
-          </div>
+      <p class="fTitle">${ps.name}</p>
 
-          <p class="fTitle">${ps.name}</p>
+      <div class="fHero" id="psHero"></div>
+      <div class="fHeroNote">Skan newsów + szybki kontekst rynkowy (agro • FX)</div>
 
-          <div class="fHero" id="psHero"></div>
-          <div class="fHeroNote">Skan newsów + szybki kontekst rynkowy (agro • FX)</div>
+      <div class="updateLine">
+        <span class="updateBadge ${isToday(updatedISO) ? "today" : ""}">
+          Aktualizacja: ${updatedLabel}
+        </span>
+      </div>
 
-       <div class="updateLine">
-  <span class="updateBadge ${isToday(updatedISO) ? "today" : ""}">
-    Aktualizacja: ${updatedLabel}
-  </span>
-</div>
+      <div class="bottomMeta">
+        <div class="left"></div>
+        <div class="right">
+          ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
+        </div>
+      </div>
+    </a>
+  `;
 
-<div class="bottomMeta">
-  <div class="left"></div>
-  <div class="right">
-    ${nextTxt !== "—" ? `<span class="nextText"><strong>Kolejne wydanie:</strong> ${nextTxt}</span>` : ``}
-  </div>
-</div>
-        </a>
-      `;
-
-      const hero = document.getElementById("psHero");
-      if(hero){
-        hero.style.backgroundImage =
-          `linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)), url("${url("poranny-skan.png")}")`;
-      }
-    }
-
+  const hero = document.getElementById("psHero");
+  if(hero){
+    hero.style.backgroundImage =
+      `linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)), url("${url("poranny-skan.png")}")`;
+  }
+}
+    
+    
 function renderPortfolioFeatured(items){
   const wrap = document.getElementById("portfolioWrap");
   if(!wrap) return;
@@ -1578,12 +1570,6 @@ function renderPortfolioFeatured(items){
   const hasTodayChild = portfolioChildren.some(x => (x.updated || "").trim() === today);
   const isPortfolioToday = hasTodayChild || isToday(updISO);
 
-  const updBadge = updISO
-    ? (isPortfolioToday
-        ? `<span class="fUpdToday">Aktualizacja: ${updLabel}</span>`
-        : `<span class="badge">Aktualizacja: ${updLabel}</span>`)
-    : ``;
-
   const thumbs = PORTFOLIO_THUMBS.map(t => {
     const imgSrc = url(t.img);
     const href   = portfolioLink(baseHref, t.hash);
@@ -1613,79 +1599,64 @@ function renderPortfolioFeatured(items){
         <div class="leftBox">
           <span class="badge primary">Portfele zakupowe ACE</span>
         </div>
-        <div class="rightBox">
-          ${updBadge}
-        </div>
       </div>
 
       <p class="fTitle">ZAKUPY ACE - REKOMENDACJE<br>BENCHMARK</p>
 
-    <div class="pHero pHeroTight">
-  <div class="thumbGrid thumbGridBig">${thumbs}</div>
-</div>
+      <div class="pHero pHeroTight">
+        <div class="thumbGrid thumbGridBig">${thumbs}</div>
+      </div>
 
-<div class="updateLine">
-  <span class="updateBadge ${isPortfolioToday ? "today" : ""}">
-    Aktualizacja: ${updLabel}
-  </span>
-</div>
-
-</div>
-`;
+      <div class="updateLine">
+        <span class="updateBadge ${isPortfolioToday ? "today" : ""}">
+          Aktualizacja: ${updLabel}
+        </span>
+      </div>
+    </div>
   `;
 }
 
-
     
-    function renderAnalysisAceFeatured(items){
-      const wrap = document.getElementById("analysisAceWrap");
-      if(!wrap) return;
+  function renderAnalysisAceFeatured(items){
+  const wrap = document.getElementById("analysisAceWrap");
+  if(!wrap) return;
 
-      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
-      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
-      const pick = (key) => mapById[key] || mapByName[key];
+  const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+  const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+  const pick = (key) => mapById[key] || mapByName[key];
 
-      const aa = pick(ANALYSIS_ACE_KEY);
+  const aa = pick(ANALYSIS_ACE_KEY);
 
-      const href = aa ? safePath(aa.path) : safePath(ANALYSIS_ACE_FALLBACK_PATH);
-      const updISO = aa ? (aa.updated || "").trim() : "";
-      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+  const href = aa ? safePath(aa.path) : safePath(ANALYSIS_ACE_FALLBACK_PATH);
+  const updISO = aa ? (aa.updated || "").trim() : "";
+  const updLabel = updISO ? fmtDatePL(updISO) : "—";
 
-      const updBadge = updISO
-        ? (isToday(updISO)
-            ? `<span class="fUpdToday">Aktualizacja: ${updLabel}</span>`
-            : `<span class="badge">Aktualizacja: ${updLabel}</span>`)
-        : ``;
+  wrap.innerHTML = `
+    <a class="analysisFeatured" href="${href}">
+      <div class="fMetaLine">
+        <div class="leftBox">
+          <span class="badge primary">ACE Market View</span>
+        </div>
+      </div>
 
-      wrap.innerHTML = `
-        <a class="analysisFeatured" href="${href}">
-          <div class="fMetaLine">
-            <div class="leftBox">
-              <span class="badge primary">ACE Market View</span>
-            </div>
-            <div class="rightBox">
-              ${updBadge}
-            </div>
-          </div>
+      <div class="analysisBox">
+        <p class="analysisTitle">Nasze spojrzenie na rynek</p>
+        <p class="analysisDesc">
+          Autorski komentarz rynkowy ACE: syntetyczne spojrzenie na rynek,
+          najważniejsze impulsy cenowe i praktyczne wnioski dla decyzji zakupowych.
+        </p>
 
-          <div class="analysisBox">
-            <p class="analysisTitle">Nasze spojrzenie na rynek</p>
-            <p class="analysisDesc">
-              Autorski komentarz rynkowy ACE: syntetyczne spojrzenie na rynek,
-              najważniejsze impulsy cenowe i praktyczne wnioski dla decyzji zakupowych.
-            </p>
+        <div class="analysisHeroMini"></div>
 
-            <div class="analysisHeroMini"></div>
-
-            <div class="updateLine">
-  <span class="updateBadge ${isToday(updISO) ? "today" : ""}">
-    Aktualizacja: ${updLabel}
-  </span>
-</div>
-          </div>
-        </a>
-      `;
-    }
+        <div class="updateLine">
+          <span class="updateBadge ${isToday(updISO) ? "today" : ""}">
+            Aktualizacja: ${updLabel}
+          </span>
+        </div>
+      </div>
+    </a>
+  `;
+}
 
     function renderCalendarLine(items){
       const wrap = document.getElementById("calLineWrap");
