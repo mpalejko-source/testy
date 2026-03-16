@@ -224,7 +224,35 @@
         0 10px 24px rgba(0,0,0,.20),
         0 0 0 1px rgba(250,204,21,.18);
     }
+.bottomBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  line-height:1;
+  color: rgba(234,240,255,.92);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
 
+.bottomBadge.today{
+  border-color: rgba(250,204,21,.70);
+  background: var(--todayYellow);
+  color: var(--todayYellowText);
+  font-weight:950;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.20),
+    0 0 0 1px rgba(250,204,21,.18);
+}
+
+
+
+    
     .title{margin:0; font-size:16px; font-weight:950; line-height:1.15; color:#fff}
     .desc{
       margin:10px 0 0 0;
@@ -252,48 +280,47 @@
     .metaLine strong{color: rgba(234,240,255,.92); font-weight:900;}
 
     /* ===== Wspólny dolny blok meta dla górnych kafelków ===== */
-    .bottomMeta{
-      margin-top:auto;
-      padding-top:12px;
-      border-top:1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      font-size:12px;
-      color:var(--muted2);
-    }
+   .bottomMeta{
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.10);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:nowrap;
+  font-size:12px;
+  color:var(--muted2);
+}
 
-    .bottomMeta .left{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
+.bottomMeta .left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  flex:1 1 auto;
+}
 
-    .bottomMeta .right{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      text-align:right;
-      min-width:0;
-      margin-left:auto;
-    }
+.bottomMeta .right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  text-align:right;
+  min-width:0;
+  flex:0 0 auto;
+  margin-left:auto;
+}
 
-    .bottomMeta strong{
-      color:rgba(234,240,255,.92);
-      font-weight:900;
-    }
+.bottomMeta strong{
+  color:rgba(234,240,255,.92);
+  font-weight:900;
+}
 
-    .bottomMeta .updText{
-      color:rgba(234,240,255,.92);
-      font-weight:900;
-    }
-
-    .bottomMeta .nextText{
-      color:var(--muted2);
-    }
+.bottomMeta .nextText{
+  color:var(--muted2);
+  white-space:nowrap;
+}
 
     /* ===== TICKER ===== */
     .ticker{
@@ -549,33 +576,28 @@
     div.featured > *{ position:relative; }
 
     .fMetaLine{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:nowrap;
-      margin-bottom:10px;
-      font-size:12px;
-      color: rgba(234,240,255,.78);
-      min-height:34px;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  flex-wrap:nowrap;
+  margin-bottom:10px;
+  font-size:12px;
+  color: rgba(234,240,255,.78);
+  min-height:34px;
+}
 
-    .fMetaLine .leftBox{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      min-width:0;
-      flex:1 1 auto;
-    }
+.fMetaLine .leftBox{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  flex:1 1 auto;
+}
 
-    .fMetaLine .rightBox{
-      margin-left:auto;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex:0 0 auto;
-      white-space:nowrap;
-    }
+.fMetaLine .rightBox{
+  display:none;
+}
 
     .fUpdToday{
       display:inline-flex;
