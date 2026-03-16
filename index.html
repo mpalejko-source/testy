@@ -686,6 +686,13 @@
       color:inherit;
       transition: transform .08s ease, border-color .08s ease, background .08s ease;
       position:relative;
+
+      .thumbToday{
+  border:1px solid rgba(250,204,21,.75) !important;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.22),
+    0 0 0 1px rgba(250,204,21,.20);
+  background: linear-gradient(180deg, rgba(250,204,21,.10), rgba(255,255,255,.03));
     }
     .thumb:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.20); background: rgba(255,255,255,.05); }
     .thumb img{
@@ -1454,66 +1461,105 @@
       }
     }
 
-    function renderPortfolioFeatured(items){
-      const wrap = document.getElementById("portfolioWrap");
-      if(!wrap) return;
+function renderPortfolioFeatured(items){
+  const wrap = document.getElementById("portfolioWrap");
+  if(!wrap) return;
 
-      const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
-      const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
-      const pick = (key) => mapById[key] || mapByName[key];
+  const mapById   = Object.fromEntries(items.map(x => [x.id, x]));
+  const mapByName = Object.fromEntries(items.map(x => [x.name, x]));
+  const pick = (key) => mapById[key] || mapByName[key];
 
-      const pf = pick(PORTFOLIO_KEY);
+  const pf = pick(PORTFOLIO_KEY);
 
-      if(!pf){
-        wrap.innerHTML = `<div class="error">Brak wpisu <code>${PORTFOLIO_KEY}</code> w <code>manifest.json</code>.</div>`;
-        return;
-      }
+  if(!pf){
+    wrap.innerHTML = `<div class="error">Brak wpisu <code>${PORTFOLIO_KEY}</code> w <code>manifest.json</code>.</div>`;
+    return;
+  }
 
-      const updISO   = (pf.updated || "").trim();
-      const updLabel = updISO ? fmtDatePL(updISO) : "—";
+  const baseHref = safePath(pf.path);
+  const today = todayISO();
 
-      const updBadge = updISO
-        ? (isToday(updISO)
-            ? `<span class="fUpdToday">Aktualizacja: ${updLabel}</span>`
-            : `<span class="badge">Aktualizacja: ${updLabel}</span>`)
-        : ``;
+  const portfolioChildren = PORTFOLIO_THUMBS
+    .map(t => {
+      const href = portfolioLink(baseHref, t.hash);
+      const cleanHref = (href || "").replace(/#.*$/, "");
 
-      const baseHref = safePath(pf.path);
+      return items.find(it => {
+        const itemPath = safePath(it.path || "").replace(/#.*$/, "");
+        return itemPath === cleanHref;
+      }) || null;
+    })
+    .filter(Boolean);
 
-      const thumbs = PORTFOLIO_THUMBS.map(t => {
-        const imgSrc = url(t.img);
-        const href   = portfolioLink(baseHref, t.hash);
+  let updISO = (pf.updated || "").trim();
 
-        return `
-          <a class="thumb" href="${href}" title="Otwórz: ${t.label}">
-            <img src="${imgSrc}" alt="${t.label}">
-            <div class="cap">
-              <span>${t.label}</span>
-            </div>
-          </a>
-        `;
-      }).join("");
+  if(portfolioChildren.length){
+    const latestChildUpd = portfolioChildren
+      .map(x => (x.updated || "").trim())
+      .filter(Boolean)
+      .sort((a,b)=>parseISO(b)-parseISO(a))[0] || "";
 
-      wrap.innerHTML = `
-        <div class="featured portfolioFeatured cardStatic">
-          <div class="fMetaLine">
-            <div class="leftBox">
-              <span class="badge primary">Portfele zakupowe ACE</span>
-            </div>
-            <div class="rightBox">
-              ${updBadge}
-            </div>
-          </div>
-
-          <p class="fTitle">ZAKUPY ACE - REKOMENDACJE<br>BENCHMARK</p>
-
-          <div class="pHero pHeroTight">
-            <div class="thumbGrid thumbGridBig">${thumbs}</div>
-          </div>
-        </div>
-      `;
+    if(latestChildUpd){
+      updISO = latestChildUpd;
     }
+  }
 
+  const updLabel = updISO ? fmtDatePL(updISO) : "—";
+
+  const hasTodayChild = portfolioChildren.some(x => (x.updated || "").trim() === today);
+  const isPortfolioToday = hasTodayChild || isToday(updISO);
+
+  const updBadge = updISO
+    ? (isPortfolioToday
+        ? `<span class="fUpdToday">Aktualizacja: ${updLabel}</span>`
+        : `<span class="badge">Aktualizacja: ${updLabel}</span>`)
+    : ``;
+
+  const thumbs = PORTFOLIO_THUMBS.map(t => {
+    const imgSrc = url(t.img);
+    const href   = portfolioLink(baseHref, t.hash);
+
+    const child = portfolioChildren.find(x => {
+      const childPath = safePath(x.path || "").replace(/#.*$/, "");
+      const targetPath = href.replace(/#.*$/, "");
+      return childPath === targetPath;
+    });
+
+    const childUpd = child && child.updated ? child.updated.trim() : "";
+    const thumbTodayClass = childUpd === today ? " thumbToday" : "";
+
+    return `
+      <a class="thumb${thumbTodayClass}" href="${href}" title="Otwórz: ${t.label}">
+        <img src="${imgSrc}" alt="${t.label}">
+        <div class="cap">
+          <span>${t.label}</span>
+        </div>
+      </a>
+    `;
+  }).join("");
+
+  wrap.innerHTML = `
+    <div class="featured portfolioFeatured cardStatic">
+      <div class="fMetaLine">
+        <div class="leftBox">
+          <span class="badge primary">Portfele zakupowe ACE</span>
+        </div>
+        <div class="rightBox">
+          ${updBadge}
+        </div>
+      </div>
+
+      <p class="fTitle">ZAKUPY ACE - REKOMENDACJE<br>BENCHMARK</p>
+
+      <div class="pHero pHeroTight">
+        <div class="thumbGrid thumbGridBig">${thumbs}</div>
+      </div>
+    </div>
+  `;
+}
+
+
+    
     function renderAnalysisAceFeatured(items){
       const wrap = document.getElementById("analysisAceWrap");
       if(!wrap) return;
