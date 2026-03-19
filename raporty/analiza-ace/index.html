@@ -67,20 +67,31 @@
   .archiveStreamHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 12px;}
   .archiveStreamTitle{font-size:18px;font-weight:900;color:#eef5ff;letter-spacing:.2px;margin:0;}
   .archiveTag{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);font-size:12px;color:var(--muted);}
-  .entryTopBar{display:flex;align-items:center;gap:10px;margin:0 0 14px;}
-  .toTopBtn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:rgba(234,240,255,.92);text-decoration:none;font-size:18px;box-shadow:0 10px 24px rgba(0,0,0,.18);}
-  .toTopBtn:hover{background:rgba(255,255,255,.10)}
-  .toTopTxt{font-size:14px;color:var(--muted);}
   .emptyArchive{font-size:14px;color:var(--muted2);}
   #ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;padding:0;margin:0;align-items:center;justify-content:center}
   #ov img{width:99vw;height:99vh;object-fit:contain;border-radius:0}
   #ov .x{position:fixed;top:12px;right:16px;color:#fff;font-size:26px;cursor:pointer;user-select:none;padding:6px 10px;border-radius:10px;background:rgba(0,0,0,.35)}
   @media (max-width:1200px){.layout{grid-template-columns:1fr}.archive{position:static}.title{font-size:38px}.archiveEntryTitle{font-size:30px}}
   @media (max-width:820px){.wrap{padding:18px 14px 42px}.brandRow{align-items:flex-start}.brandLogo{width:62px}.brandTitle{font-size:22px}.brandSub{font-size:14px}.article{padding:20px 18px}.text{font-size:17px}.imgFloatLeft,.imgFloatRight{float:none;width:100%;margin:0 0 12px}.captionRow{display:block}.captionRight{margin:10px 0 0;max-width:none}}
+  .entryPanel{display:none;}
+  .entryPanel.isActive{display:block;}
+  .tile.isActive{background:rgba(125,211,252,.10);border-color:rgba(125,211,252,.35);}
   </style>
   <script>
     function showImg(src){document.getElementById('ovimg').src=src;document.getElementById('ov').style.display='flex'}
     function hideImg(){document.getElementById('ov').style.display='none';document.getElementById('ovimg').src=''}
+    function showEntry(entryId, el){
+      var panels=document.querySelectorAll('.entryPanel');
+      var tiles=document.querySelectorAll('.tile');
+      var i;
+      for(i=0;i<panels.length;i++){panels[i].classList.remove('isActive');}
+      for(i=0;i<tiles.length;i++){tiles[i].classList.remove('isActive');}
+      var target=document.getElementById(entryId);
+      if(target){target.classList.add('isActive');}
+      if(el){el.classList.add('isActive');}
+      window.scrollTo({top:0,behavior:'smooth'});
+      return false;
+    }
   </script>
 </head>
 <body>
@@ -102,7 +113,7 @@
     </div>
     <div class='layout'>
       <div class='mainCol'>
-        <article class='article'>
+        <article class='article entryPanel isActive' id='entry-current'>
           <h1 class='title'>Droga ropa, drogie nawozy i niepewne Chiny</h1>
           <div class='submeta'>2026-03-19 &bull; 21:37</div>
           <div class='lead'>PORANNY SKAN RYNKU Z SYSTEMU REUTERS:</div>
@@ -142,18 +153,9 @@
           </section>
 
         </article>
-        <section class='archiveStream'>
-          <div class='archiveStreamHead'>
-            <h2 class='archiveStreamTitle'>Archiwum analiz</h2>
-            <div class='archiveTag'>Archiwum analiz</div>
-          </div>
-          <article class='article' id='arc-1'>
-            <div class='entryTopBar'>
-              <a class='toTopBtn' href='#top' title='Przewi&#324; do g&#243;ry'>&uarr;</a>
-              <span class='toTopTxt'>Przewi&#324; do g&#243;ry</span>
-            </div>
-            <h2 class='archiveEntryTitle'>test test test oooooooooooooooooooooooooooo</h2>
-            <div class='submeta'>2026-03-18 &bull; 12:07</div>
+        <article class='article entryPanel' id='arc-1'>
+          <h2 class='archiveEntryTitle'>test test test oooooooooooooooooooooooooooo</h2>
+          <div class='submeta'>2026-03-18 &bull; 12:07</div>
 <section class='block'>
             <div class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
           </section>
@@ -180,14 +182,10 @@
             </div>
           </section>
 
-          </article>
-          <article class='article' id='arc-2'>
-            <div class='entryTopBar'>
-              <a class='toTopBtn' href='#top' title='Przewi&#324; do g&#243;ry'>&uarr;</a>
-              <span class='toTopTxt'>Przewi&#324; do g&#243;ry</span>
-            </div>
-            <h2 class='archiveEntryTitle'>Agro pod presją energii. Ormuz, ropa, dolar i nowa fala nerwowości na rynkach</h2>
-            <div class='submeta'>2026-03-18 &bull; 12:07</div>
+        </article>
+        <article class='article entryPanel' id='arc-2'>
+          <h2 class='archiveEntryTitle'>Agro pod presją energii. Ormuz, ropa, dolar i nowa fala nerwowości na rynkach</h2>
+          <div class='submeta'>2026-03-18 &bull; 12:07</div>
 <section class='block'>
             <div class='mixed floatWrap'>
               <div class='imgFloatRight' style='--imgw:50%'>
@@ -226,18 +224,21 @@
             </div>
           </section>
 
-          </article>
-        </section>
+        </article>
 
       </div>
       <aside class='archive'>
         <div class='archiveTitle'>Archiwum analiz</div>
         <div class='tiles'>
-          <a class='tile' href='#arc-1'>
+          <a class='tile isActive' href='#' onclick="return showEntry('entry-current', this)">
+            <div class='tileDate'></div>
+            <div class='tileTitle'>Najnowszy wpis</div>
+          </a>
+          <a class='tile' href='#' onclick="return showEntry('arc-1', this)">
             <div class='tileDate'>2026-03-18</div>
             <div class='tileTitle'>test test test oooooooooooooooooooooooooooo</div>
           </a>
-          <a class='tile' href='#arc-2'>
+          <a class='tile' href='#' onclick="return showEntry('arc-2', this)">
             <div class='tileDate'>2026-03-18</div>
             <div class='tileTitle'>Agro pod presją energii. Ormuz, ropa, dolar i nowa fala nerwowości na rynkach</div>
           </a>
