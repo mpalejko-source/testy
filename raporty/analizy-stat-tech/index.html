@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<script>
+  const BASE = "/";
+  function url(path){
+    return BASE + String(path || "").replace(/^\/+/, "");
+  }
+</script>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ACE – Analizy Statystyczno-Techniczne</title>
+
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<style>
+:root{
+  --bg:#0b1220;
+  --card:#0f1a33;
+  --border:rgba(255,255,255,.10);
+  --text:#eaf0ff;
+  --muted:rgba(234,240,255,.72);
+  --muted2:rgba(234,240,255,.55);
+  --accent:#7dd3fc;
+  --accent2:#a78bfa;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --radius:16px;
+
+  /* żółty "Aktualizacja" jak NOWE (dziś/wczoraj) */
+  --todayYellow: rgba(250,204,21,.95);
+  --todayYellowText: #0b1220;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+    var(--bg);
+}
+
+.wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding:28px 18px 60px;
+}
+
+h1{
+  margin:0;
+  font-size:26px;
+  font-weight:900;
+}
+
+.subtitle{
+  margin-top:6px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* === PRZYCISK POWROT DO PANELU === */
+.backRow{
+  margin:10px 0 18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.backBtn{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(234,240,255,.92);
+  font-size:13px;
+  text-decoration:none;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+.backBtn:hover{ background: rgba(255,255,255,.10); }
+
+.divider{
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    rgba(125,211,252,.45),
+    rgba(167,139,250,.35),
+    rgba(255,255,255,.08)
+  );
+  margin:26px 0;
+}
+
+.sectionTitle{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:14px;
+  letter-spacing:.3px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+@media(max-width:900px){
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .grid-3,.grid-2{grid-template-columns:1fr}
+}
+
+.card{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.04);
+  border-radius:var(--radius);
+  padding:14px;
+  box-shadow:var(--shadow);
+  transition:.15s ease;
+}
+.card:hover{
+  background:rgba(255,255,255,.07);
+  transform:translateY(-1px);
+}
+
+.badges{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.badge{
+  font-size:12px;
+  padding:5px 9px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.06);
+  color:var(--muted2);
+  white-space:nowrap;
+}
+
+/* NOWE (gradient) */
+.badgeNew{
+  font-size:11px;
+  padding:5px 9px;
+  border-radius:999px;
+  font-weight:900;
+  letter-spacing:.3px;
+  color:#081018;
+  background:linear-gradient(90deg,#7dd3fc,#a78bfa);
+  box-shadow:0 6px 18px rgba(125,211,252,.35);
+  white-space:nowrap;
+}
+
+/* ŻÓŁTA RAMKA dla "Aktualizacja: data" gdy NOWE (dziś/wczoraj) */
+.badgeUpdToday{
+  font-size:12px;
+  padding:5px 10px;
+  border-radius:999px;
+  font-weight:950;
+  border:1px solid rgba(250,204,21,.70);
+  background: var(--todayYellow);
+  color: var(--todayYellowText);
+  box-shadow: 0 10px 24px rgba(0,0,0,.20);
+  white-space:nowrap;
+}
+
+/* wyśrodkowanie żółtej daty w wierszu badge */
+.badges .badgeUpdToday{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.cardTitle{
+  font-size:15px;
+  font-weight:900;
+  margin:0 0 6px;
+}
+.cardDesc{
+  font-size:13px;
+  color:var(--muted);
+  margin:0;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <h1>Analizy Statystyczno-Techniczne</h1>
+  <div class="subtitle">
+    Waluty, zboża, śruty i energia – uporządkowane analizy ACE
+  </div>
+
+  <div class="backRow">
+    <a class="backBtn" href="/index.html">← Panel główny</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sectionTitle">💱 WALUTY</div>
+  <div class="grid-3" id="sec-waluty"></div>
+
+  <div class="divider"></div>
+
+  <div class="sectionTitle">🌾 ZBOŻA</div>
+  <div class="grid-3" id="sec-zboza"></div>
+
+  <div class="divider"></div>
+
+  <div class="sectionTitle">🧩 ŚRUTY</div>
+  <div class="grid-2" id="sec-sruty"></div>
+
+  <div class="divider"></div>
+
+  <div class="sectionTitle">⚡ ENERGIA</div>
+  <div class="grid-2" id="sec-energia"></div>
+
+</div>
+
+<script>
+function parseUpdated(iso){
+  if(!iso) return -Infinity;
+  const t = Date.parse(iso + "T00:00:00");
+  return isNaN(t) ? -Infinity : t;
+}
+
+// zostawiamy "NOWE" jak było: dziś / wczoraj (<= 1.5 dnia)
+function isNew(dateStr){
+  if(!dateStr) return false;
+  const d = new Date(dateStr + "T00:00:00");
+  if(isNaN(d)) return false;
+  const now = new Date();
+  const diffDays = (now - d) / (1000*60*60*24);
+  return diffDays <= 1.5;
+}
+
+// format 2026-02-04 -> 04.02.2026
+function fmtDatePL(iso){
+  if(!iso) return "";
+  const p = String(iso).split("-");
+  if(p.length !== 3) return String(iso);
+  return `${p[2]}.${p[1]}.${p[0]}`;
+}
+
+function card(r){
+  const isnew = isNew(r.updated);
+
+  const newBadge = isnew ? `<span class="badgeNew">NOWE</span>` : "";
+
+  // data w żółtej ramce gdy NOWE, w zwykłej gdy nie
+  const dateBadge = (r.updated || "")
+    ? (isnew
+        ? `<span class="badgeUpdToday">Aktualizacja: ${fmtDatePL(r.updated)}</span>`
+        : `<span class="badge">Aktualizacja: ${fmtDatePL(r.updated)}</span>`)
+    : `<span class="badge">Aktualizacja: —</span>`;
+
+  return `
+    <a class="card" href="${url(r.path)}">
+      <div class="badges">
+        ${newBadge}
+        ${dateBadge}
+      </div>
+      <p class="cardTitle">${r.name}</p>
+      <p class="cardDesc">${r.description || ""}</p>
+    </a>`;
+}
+
+async function load(){
+  const res = await fetch(url("manifest.json") + "?t=" + Date.now(), {cache:"no-store"});
+  const data = await res.json();
+
+  const all = Object.values(data)
+    .filter(x => (x.group || "").toLowerCase() === "analizy-stat-tech");
+
+  const waluty = [];
+  const zboza  = [];
+  const sruty  = [];
+  const energia= [];
+
+  all.forEach(r=>{
+    const sec = (r.section || "").toLowerCase();
+    if(sec==="waluty") waluty.push(r);
+    else if(sec==="zboża" || sec==="zboza") zboza.push(r);
+    else if(sec==="śruty" || sec==="sruty") sruty.push(r);
+    else if(sec==="energia") energia.push(r);
+  });
+
+  const sortByDateDesc = (a,b)=>parseUpdated(b.updated)-parseUpdated(a.updated);
+  waluty.sort(sortByDateDesc);
+  zboza.sort(sortByDateDesc);
+  sruty.sort(sortByDateDesc);
+  energia.sort(sortByDateDesc);
+
+  waluty.forEach(r => document.getElementById("sec-waluty").insertAdjacentHTML("beforeend", card(r)));
+  zboza.forEach(r  => document.getElementById("sec-zboza").insertAdjacentHTML("beforeend", card(r)));
+  sruty.forEach(r  => document.getElementById("sec-sruty").insertAdjacentHTML("beforeend", card(r)));
+  energia.forEach(r=> document.getElementById("sec-energia").insertAdjacentHTML("beforeend", card(r)));
+}
+
+load();
+</script>
+
+</body>
+</html>
