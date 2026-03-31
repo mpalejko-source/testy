@@ -3,55 +3,74 @@
     "name": "Poranny Skan Rynku",
     "description": "Codzienny skan newsów i poranny komentarz (PL/EN) + archiwum.",
     "path": "raporty/poranny-skan/",
-    "updated": "2026-03-16",
+    "updated": "2026-03-31",
     "frequency": "dziennie",
-    "next_issue": "2026-03-16",
-    "category": "zboza"
+    "next_issue": "2026-04-01",
+    "category": "zboza",
+    "alert_comment": "Dzisiejszy poranny skan obejmuje zmiany na rynku ropy i olejów roślinnych, wpływ programu B50 w Indonezji oraz sytuację na rynku nawozów w UE. Dodatkowo zachowanie cen zbóż i oleistych (pszenica, kukurydza, soja) oraz oczekiwania przed dzisiejszym raportem USDA o zasiewach."
+  },
+
+  "ACE Market View": {
+  "name": "ACE Market View",
+  "description": "Autorska analiza rynkowa ACE.",
+  "path": "raporty/analiza-ace/",
+  "updated": "2026-03-24",
+  "type": "report",
+  "alert_comment": "Przedstawiamy bieżącą sytuację na rynku śruty sojowej, łącząc analizę techniczną (CBOT), zachowanie funduszy spekulacyjnych oraz zmiany w premiach i kosztach frachtu."
   },
 
   "Rynek na wykresach - Surowce i Waluty": {
     "name": "Rynek na wykresach - Surowce i Waluty",
     "description": "Pakiet wykresów spot do szybkiego przeglądu trendów.",
     "path": "raporty/chart-pack/",
-    "updated": "2026-02-23",
+    "updated": "2026-03-26",
     "frequency": "tygodniowo",
-    "next_issue": "2026-03-05",
-    "category": "zboza"
+    "next_issue": "2026-04-02",
+    "category": "zboza",
+    "alert_comment": ""
+
   },
   "Pozycje Funduszy": {
     "name": "Pozycje Funduszy",
     "description": "Pozycjonowanie spekulantów / funduszy i wnioski rynkowe.",
     "path": "raporty/pozycje-funduszy/",
-    "updated": "2026-03-02",
+    "updated": "2026-03-30",
     "frequency": "tygodniowo",
-    "next_issue": "2026-03-09",
-    "category": "zboza"
+    "next_issue": "2026-04-06",
+    "category": "zboza",
+    "alert_comment": "Fundusze wyraźnie zwiększają zaangażowanie w surowce, a kapitał kontynuuje zakupy na rynku zbóż i oleistych. Najnowsze dane pokazują jedne z najwyższych pozycji od lat, przy jednoczesnym silnym wpływie rynku ropy na cały sektor agro. Sprawdź, gdzie dokładnie płynie kapitał i co to może oznaczać dla cen w najbliższych tygodniach."
+
   },
   "Portfele-ACE": {
     "name": "Portfele-ACE",
     "description": "Szybkie podsumowanie i ruchy zakupowe ACE w trakcie tygodnia.",
     "path": "raporty/benchmark-tygodnia/",
-    "updated": "2026-03-16",
+    "updated": "2026-03-25",
     "frequency": "tygodniowo",
-    "next_issue": "2026-03-04",
-    "category": "zboza"
+    "next_issue": "2026-04-01",
+    "category": "zboza",
+    "alert_comment": "W skrócie, pozostajemy przy spokojnym i ostrożnym podejściu, koncentrując się głównie na rynku spot. Najbliższe potrzeby mamy zabezpieczone, a na dalsze okresy nadal widzimy przestrzeń do spadków, dlatego nie przyspieszamy decyzji zakupowych."
   },
   "Analizy statystyczno-techniczne": {
     "name": "Analizy statystyczno-techniczne",
     "description": "Pakiet szczegółowych analiz liczbowych dla wszystkich surowców i walut",
      "path": "raporty/analizy-stat-tech/",
       "type": "folder",
-    "category": "foldery"
+    "category": "foldery",
+    "alert_comment": ""
+
   },
   
   "Pogoda": {
     "name": "Warunki pogodowe dla upraw kluczowych surowców",
     "description": "Mapki pogodowe z krótką prognozą i wpływem na uprawy.",
     "path": "raporty/weather-watch/",
-    "updated": "2026-01-28",
+    "updated": "2026-03-27",
     "frequency": "tygodniowo",
-    "next_issue": "2026-03-06",
-    "category": "zboza"
+    "next_issue": "2026-04-02",
+    "category": "zboza",
+    "alert_comment": "W Europie kluczowy jest chłodniejszy i miejscami suchy scenariusz w centrum kontynentu, który może pogłębiać deficyt wilgoci dla pszenicy, przy jednoczesnych nadmiarach opadów na południowym wschodzie. W USA utrzymuje się ciepło i susza na Równinach z presją na pszenicę, w Ameryce Południowej kontrast między suchą Brazylią a wilgotną Argentyną wpływa na zbiory i rozwój kukurydzy, a w Australii najważniejszym czynnikiem pozostaje cyklon i poprawa wilgotności gleb przed siewami."
+
   },
 
 
@@ -67,7 +86,7 @@
     "name": "USD/PLN",
     "description": "Analiza statystyczno-techniczna pary USD/PLN.",
     "path": "raporty/analizy-stat-tech/waluty/usdpln/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
@@ -77,7 +96,7 @@
     "name": "EUR/PLN",
     "description": "Analiza statystyczno-techniczna pary EUR/PLN.",
     "path": "raporty/analizy-stat-tech/waluty/eurpln/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
@@ -87,7 +106,7 @@
     "name": "EUR/USD",
     "description": "Analiza statystyczno-techniczna pary EUR/USD.",
     "path": "raporty/analizy-stat-tech/waluty/eurusd/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Waluty",
@@ -98,7 +117,7 @@
     "name": "Pszenica",
     "description": "Analiza statystyczno-techniczna pszenicy.",
     "path": "raporty/analizy-stat-tech/zboza/pszenica/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
@@ -108,7 +127,7 @@
     "name": "Kukurydza",
     "description": "Analiza statystyczno-techniczna kukurydzy.",
     "path": "raporty/analizy-stat-tech/zboza/kukurydza/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
@@ -118,7 +137,7 @@
     "name": "Rzepak",
     "description": "Analiza statystyczno-techniczna rzepaku.",
     "path": "raporty/analizy-stat-tech/zboza/rzepak/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Zboża",
@@ -129,7 +148,7 @@
     "name": "Śruta sojowa",
     "description": "Analiza statystyczno-techniczna śruty sojowej.",
     "path": "raporty/analizy-stat-tech/sruty/sojowa/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Śruty",
@@ -139,7 +158,7 @@
     "name": "Śruta rzepakowa",
     "description": "Analiza statystyczno-techniczna śruty rzepakowej.",
     "path": "raporty/analizy-stat-tech/sruty/rzepakowa/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Śruty",
@@ -150,7 +169,7 @@
     "name": "Gaz",
     "description": "Analiza statystyczno-techniczna rynku gazu.",
     "path": "raporty/analizy-stat-tech/energia/gaz/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Energia",
@@ -160,7 +179,7 @@
     "name": "Prąd",
     "description": "Analiza statystyczno-techniczna rynku energii elektrycznej.",
     "path": "raporty/analizy-stat-tech/energia/prad/",
-    "updated": "2026-03-03",
+    "updated": "2026-03-31",
     "frequency": "tygodniowo",
     "group": "analizy-stat-tech",
     "section": "Energia",
@@ -171,51 +190,52 @@
     "name": "WASDE",
     "description": "USDA: bilanse, zmiany i konsekwencje rynkowe.",
     "path": "raporty/raporty-fundamentalne/wasde/",
-    "updated": "2026-02-11",
+    "updated": "2026-03-11",
     "frequency": "miesięcznie",
-    "next_issue": "2026-03-10",
+    "next_issue": "2026-04-09",
     "group": "raporty-fundamentalne",
     "section": "Raporty",
-    "category": "zboza"
+    "category": "zboza",
+    "alert_comment": "Wczorajszy raport WASDE nie wniósł niemal nic nowego dla rynku soi. Największe zmiany (pro-spadkowe) dotyczą rynku kukurydzy. Zapraszamy do przeczytania całego raportu"
+
   },
   "igc": {
     "name": "IGC",
     "description": "International Grain Council: bilanse, handel, prognozy.",
     "path": "raporty/raporty-fundamentalne/igc/",
-    "updated": "2026-02-19",
+    "updated": "2026-03-20",
     "frequency": "miesięcznie",
-    "next_issue": "2026-03",
+    "next_issue": "2026-04",
     "group": "raporty-fundamentalne",
     "section": "Raporty",
-    "category": "zboza"
+    "category": "zboza",
+    "alert_comment": "Indeks pszenicy IGC GOI wzrósł o 6%, kukurydzy o 2%, a ryżu spadł o 3%, podczas gdy indeks soi obniżył się o 1% głównie z powodu niższych cen w Argentynie. Światowa prognoza produkcji zbóż na sezon 2025/26 została podniesiona o 10 mln ton m/m do 2 470 mln ton, a konsumpcja o 8 mln ton do 2 423 mln ton, wzrost indeksu IGC GOI wyniósł o 1% m/m."
+
   },
   "fao": {
     "name": "FAO",
     "description": "FAO: dane i trendy globalne w agro.",
     "path": "raporty/raporty-fundamentalne/fao/",
-    "updated": "2026-02-06",
+    "updated": "2026-03-06",
     "frequency": "miesięcznie",
-    "next_issue": "2026-03-07",
+    "next_issue": "2026-04-03",
     "group": "raporty-fundamentalne",
     "section": "Raporty",
-    "category": "zboza"
+    "category": "zboza",
+    "alert_comment": ""
+
   },
   "Indexy-światowe": {
     "name": "Indexy Światowe",
     "description": "Bloomberg Commodity Index, DXY, Baltic Dry i inne",
     "path": "raporty/raporty-fundamentalne/ace-indexy-swiatowe/",
-    "updated": "2026-02-18",
+    "updated": "2026-03-30",
     "frequency": "miesięcznie",
-    "next_issue": "2026-03-18",
+    "next_issue": "2026-04-20",
     "group": "raporty-fundamentalne",
     "section": "Raporty",
-    "category": "zboza"
-  },
-  "ACE Market View": {
-  "name": "ACE Market View",
-  "description": "Autorska analiza rynkowa ACE.",
-  "path": "raporty/analiza-ace/",
-  "updated": "2026-03-16",
-  "type": "report"
-  } 
+    "category": "zboza",
+    "alert_comment": "Globalny rynek surowców znów przyciąga kapitał, ale agro nadal pozostaje w cieniu energii i metali. W tle stabilny dolar i rosnące koszty transportu zaczynają budować potencjał pod większe ruchy cenowe. Sprawdź, co naprawdę pokazują globalne indeksy i co to oznacza dla rynku zbóż i pasz."
+
+  }
 }
