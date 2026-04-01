@@ -160,7 +160,6 @@
       padding:16px;
       position:relative;
       overflow:hidden;
-      isolation:isolate;
     }
     a.card{ transition: transform .08s ease, border-color .08s ease; }
     a.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
@@ -171,40 +170,8 @@
       background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
                   radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
       pointer-events:none;
-      z-index:0;
     }
-    a.card > *, .cardStatic > *{ position:relative; z-index:2; }
-
-    /* ===== watermark ===== */
-    a.card.hasWatermark::after{
-      content:"";
-      position:absolute;
-      right:0;
-      bottom:0;
-      width:62%;
-      height:64%;
-      background-image: var(--wm-image);
-      background-repeat:no-repeat;
-      background-position:right bottom;
-      background-size:contain;
-      opacity:.17;
-      pointer-events:none;
-      z-index:1;
-      transform: translate(6%, 8%);
-    }
-
-    a.card.quickWatermark::after{
-      width:60%;
-      height:58%;
-      opacity:.15;
-    }
-
-    a.card.monthlyWatermark::after{
-      width:60%;
-      height:62%;
-      opacity:.15;
-      transform: translate(4%, 6%);
-    }
+    a.card > *, .cardStatic > *{ position:relative; }
 
     /* ===== wyróżnienie "today" ===== */
     a.card.today{
@@ -284,14 +251,7 @@
         0 0 0 1px rgba(250,204,21,.18);
     }
 
-    .title{
-      margin:0;
-      font-size:16px;
-      font-weight:950;
-      line-height:1.15;
-      color:#fff;
-      max-width:85%;
-    }
+    .title{margin:0; font-size:16px; font-weight:950; line-height:1.15; color:#fff}
     .desc{
       margin:10px 0 0 0;
       color:var(--muted);
@@ -302,7 +262,6 @@
       -webkit-box-orient: vertical;
       overflow:hidden;
       min-height: calc(1.35em * 3);
-      max-width:86%;
     }
 
     .metaLine{
@@ -1363,7 +1322,7 @@
     const EXTRA_MONTHLY_CARD = {
       id: "Wskaźniki",
       name: "Wskaźniki",
-      description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
+      description: "Analiza relacji cenowych między surowcami<br>i wskaźników względem ceny.",
       path: "raporty/analizy-stat-tech/ratio/",
       updated: "",
       next_issue: ""
@@ -1463,157 +1422,6 @@
         next_issue: (r.next_issue || "").toString(),
         group: (r.group || "").toString()
       }));
-    }
-
-    function svgUrl(svg){
-      return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')`;
-    }
-
-    const WATERMARKS = {
-      weeklyFunds: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".28" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 148H296"/>
-            <path d="M40 148V132"/>
-            <path d="M70 148V122"/>
-            <path d="M100 148V128"/>
-            <path d="M130 148V110"/>
-            <path d="M160 148V118"/>
-            <path d="M190 148V90"/>
-            <path d="M220 148V96"/>
-            <path d="M250 148V72"/>
-            <path d="M280 148V54"/>
-            <path d="M34 144L70 118L100 124L130 102L160 112L190 84L220 88L250 66L280 48"/>
-          </g>
-        </svg>
-      `),
-      weeklyWeather: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".22" stroke-width="1.8">
-            <path d="M160 150c26-22 30-44 8-66 28-8 44-26 50-46 20 26 41 36 74 36"/>
-            <path d="M122 152c24-18 30-36 18-56 20-8 34-24 40-42"/>
-            <path d="M188 118c20 6 36 4 54-6"/>
-            <path d="M208 138c24 2 44-4 72-24"/>
-            <path d="M138 136c16-2 26-6 42-16"/>
-            <path d="M224 76c18 6 34 8 56 4"/>
-            <path d="M108 154c14-10 22-22 28-36"/>
-          </g>
-        </svg>
-      `),
-      weeklyCharts: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 148H296" stroke-width="2"/>
-            <path d="M34 124L58 118L84 126L110 108L136 116L162 90L188 102L214 82L240 88L268 58L292 64" stroke-width="2.2"/>
-            <path d="M34 136L58 132L84 138L110 126L136 130L162 116L188 122L214 108L240 112L268 96L292 100" stroke-width="1.8"/>
-            <path d="M34 144L58 140L84 142L110 138L136 140L162 132L188 134L214 126L240 128L268 120L292 118" stroke-width="1.4"/>
-          </g>
-        </svg>
-      `),
-      weeklyPortfolio: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".20" stroke-width="2.1">
-            <circle cx="220" cy="100" r="48"/>
-            <path d="M220 52v46h46"/>
-            <path d="M220 148v-46h-40"/>
-            <path d="M172 100h48"/>
-            <path d="M254 126l-34-26"/>
-          </g>
-        </svg>
-      `),
-      weeklyStats: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 148H296" stroke-width="2"/>
-            <path d="M34 148V126M60 148V118M86 148V128M112 148V110M138 148V96M164 148V88M190 148V100M216 148V118M242 148V126" stroke-width="1.7"/>
-            <path d="M18 146C62 146 82 144 102 132C122 120 138 92 158 92C178 92 190 118 210 130C230 142 252 146 302 146" stroke-width="2.2"/>
-          </g>
-        </svg>
-      `),
-      monthlyIndex: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".22" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 148H296" stroke-width="2"/>
-            <path d="M48 148V130M78 148V118M108 148V126M138 148V104M168 148V112M198 148V82M228 148V92M258 148V66" stroke-width="1.8"/>
-            <path d="M34 140L68 132L96 136L126 122L158 126L188 96L220 104L256 72L286 78" stroke-width="2.2"/>
-          </g>
-        </svg>
-      `),
-      monthlyIGC: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".18" stroke-width="2">
-            <path d="M220 150V68"/>
-            <path d="M220 82c-16 0-26-8-36-18"/>
-            <path d="M220 96c-16 0-28-10-40-22"/>
-            <path d="M220 110c-18 0-30-10-42-22"/>
-            <path d="M220 124c-16 0-28-8-38-18"/>
-            <path d="M220 138c-12 0-22-6-30-14"/>
-            <path d="M220 82c16 0 26-8 36-18"/>
-            <path d="M220 96c16 0 28-10 40-22"/>
-            <path d="M220 110c18 0 30-10 42-22"/>
-            <path d="M220 124c16 0 28-8 38-18"/>
-            <path d="M220 138c12 0 22-6 30-14"/>
-          </g>
-        </svg>
-      `),
-      monthlyWASDE: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".18" stroke-width="1.8">
-            <rect x="170" y="38" width="102" height="122" rx="10"/>
-            <path d="M186 66H256M186 88H256M186 110H256M186 132H256"/>
-            <path d="M208 54V146M234 54V146"/>
-          </g>
-        </svg>
-      `),
-      monthlyFAO: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".18" stroke-width="2">
-            <circle cx="228" cy="98" r="48"/>
-            <path d="M180 98H276"/>
-            <path d="M228 50c14 12 20 30 20 48s-6 36-20 48"/>
-            <path d="M228 50c-14 12-20 30-20 48s6 36 20 48"/>
-            <path d="M194 72c18 8 50 8 68 0"/>
-            <path d="M194 124c18-8 50-8 68 0"/>
-          </g>
-        </svg>
-      `),
-      monthlyRatio: svgUrl(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
-          <g fill="none" stroke="#7DD3FC" stroke-opacity=".22" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 148H296" stroke-width="2"/>
-            <path d="M38 136L72 120L102 126L134 98L164 106L194 86L224 92L258 70L288 78" stroke-width="2.2"/>
-            <path d="M38 94L72 106L102 98L134 122L164 112L194 130L224 118L258 140L288 128" stroke-width="2"/>
-          </g>
-        </svg>
-      `)
-    };
-
-    function weeklyWatermarkFor(item){
-      const key = `${item.id || ""} ${item.name || ""}`.toLowerCase();
-
-      if(key.includes("fundusz")) return WATERMARKS.weeklyFunds;
-      if(key.includes("pogoda")) return WATERMARKS.weeklyWeather;
-      if(key.includes("wykresach")) return WATERMARKS.weeklyCharts;
-      if(key.includes("portfele")) return WATERMARKS.weeklyPortfolio;
-      if(key.includes("statystyczno")) return WATERMARKS.weeklyStats;
-
-      return WATERMARKS.weeklyCharts;
-    }
-
-    function monthlyWatermarkFor(item){
-      const key = `${item.id || ""} ${item.name || ""}`.toLowerCase();
-
-      if(key.includes("index")) return WATERMARKS.monthlyIndex;
-      if(key.includes("igc")) return WATERMARKS.monthlyIGC;
-      if(key.includes("wasde")) return WATERMARKS.monthlyWASDE;
-      if(key.includes("fao")) return WATERMARKS.monthlyFAO;
-      if(key.includes("wska") || key.includes("ratio")) return WATERMARKS.monthlyRatio;
-
-      return WATERMARKS.monthlyIndex;
-    }
-
-    function watermarkStyle(value){
-      return value ? ` style="--wm-image:${value};"` : "";
     }
 
     function renderTodayTicker(items, scan){
@@ -2023,7 +1831,6 @@
         const nxt = nxtISO ? fmtDatePL(nxtISO) : "—";
 
         const clsToday = isToday(updISO) ? "today" : "";
-        const wm = weeklyWatermarkFor(r);
 
         const updBadge = updISO
           ? (isToday(updISO)
@@ -2032,7 +1839,7 @@
           : "";
 
         return `
-          <a class="card quickCard quickWatermark hasWatermark ${clsToday}"${watermarkStyle(wm)} href="${safePath(r.path)}">
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
             <div class="topMeta">
               ${updBadge}
             </div>
@@ -2096,7 +1903,6 @@
         const updISO = (r.updated || "").trim();
         const upd = updISO ? fmtDatePL(updISO) : "—";
         const clsToday = isToday(updISO) ? "today" : "";
-        const wm = monthlyWatermarkFor(r);
 
         const updBadge = updISO
           ? (isToday(updISO)
@@ -2105,7 +1911,7 @@
           : "";
 
         return `
-          <a class="card quickCard monthlyCard monthlyWatermark hasWatermark ${clsToday}"${watermarkStyle(wm)} href="${safePath(r.path)}">
+          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
             <div class="topMeta">${updBadge}</div>
             <p class="title">${r.name}</p>
             <p class="desc">${r.description}</p>
