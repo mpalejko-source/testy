@@ -42,9 +42,10 @@
     body{
       margin:0;
       font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(125,211,252,.14), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(167,139,250,.12), transparent 55%),
+        var(--bg);
       color:var(--text);
       min-height:100vh;
       display:flex;
@@ -61,7 +62,6 @@
       flex-direction:column;
     }
 
-    /* ===== HEADER ===== */
     header{
       display:flex;
       flex-direction:column;
@@ -132,7 +132,6 @@
       opacity:.9;
     }
 
-    /* ===== Subtelne separatory sekcji ===== */
     .sectionDivider{
       margin:16px 0 6px;
       height:1px;
@@ -141,13 +140,27 @@
     }
 
     .sectionHead{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
       margin-top:14px;
     }
-    .h2{ margin:0; font-size:20px; font-weight:950; letter-spacing:.2px; }
-    .hint{ margin:0; color: var(--muted2); font-size:12px; }
 
-    /* ===== cards base ===== */
+    .h2{
+      margin:0;
+      font-size:20px;
+      font-weight:950;
+      letter-spacing:.2px;
+    }
+
+    .hint{
+      margin:0;
+      color: var(--muted2);
+      font-size:12px;
+    }
+
     a.card, .cardStatic{
       display:flex;
       flex-direction:column;
@@ -160,20 +173,35 @@
       padding:16px;
       position:relative;
       overflow:hidden;
+      isolation:isolate;
     }
-    a.card{ transition: transform .08s ease, border-color .08s ease; }
-    a.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
-    a.card{ height:100%; }
+
+    a.card{
+      transition: transform .08s ease, border-color .08s ease;
+      height:100%;
+    }
+
+    a.card:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+    }
+
     a.card:before, .cardStatic:before{
       content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
-                  radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
+        radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
       pointer-events:none;
+      z-index:0;
     }
-    a.card > *, .cardStatic > *{ position:relative; }
 
-    /* ===== wyróżnienie "today" ===== */
+    a.card > *, .cardStatic > *{
+      position:relative;
+      z-index:2;
+    }
+
     a.card.today{
       border:2px solid var(--hiBorder);
       background: linear-gradient(135deg, var(--hiBg1), var(--hiBg2));
@@ -225,33 +253,15 @@
         0 0 0 1px rgba(250,204,21,.18);
     }
 
-    .bottomBadge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      line-height:1;
-      color: rgba(234,240,255,.92);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      box-shadow: 0 10px 24px rgba(0,0,0,.20);
-      white-space:nowrap;
-      flex:0 0 auto;
-    }
-
-    .bottomBadge.today{
-      border-color: rgba(250,204,21,.70);
-      background: var(--todayYellow);
-      color: var(--todayYellowText);
+    .title{
+      margin:0;
+      font-size:16px;
       font-weight:950;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.20),
-        0 0 0 1px rgba(250,204,21,.18);
+      line-height:1.15;
+      color:#fff;
+      max-width:84%;
     }
 
-    .title{margin:0; font-size:16px; font-weight:950; line-height:1.15; color:#fff}
     .desc{
       margin:10px 0 0 0;
       color:var(--muted);
@@ -262,6 +272,7 @@
       -webkit-box-orient: vertical;
       overflow:hidden;
       min-height: calc(1.35em * 3);
+      max-width:85%;
     }
 
     .metaLine{
@@ -275,9 +286,12 @@
       gap:10px;
       flex-wrap:wrap;
     }
-    .metaLine strong{color: rgba(234,240,255,.92); font-weight:900;}
 
-    /* ===== Wspólny dolny blok meta dla górnych kafelków ===== */
+    .metaLine strong{
+      color: rgba(234,240,255,.92);
+      font-weight:900;
+    }
+
     .bottomMeta{
       margin-top:auto;
       padding-top:12px;
@@ -348,7 +362,6 @@
       font-weight:900;
     }
 
-    /* ===== TICKER ===== */
     .ticker{
       margin-top:10px;
       border:1px solid rgba(250,204,21,.45);
@@ -360,6 +373,7 @@
       display:flex;
       align-items:center;
     }
+
     .ticker .label{
       flex:0 0 auto;
       padding:0 14px;
@@ -373,6 +387,7 @@
       justify-content:center;
       font-size:13px;
     }
+
     .ticker .track{
       position:relative;
       flex:1 1 auto;
@@ -382,6 +397,7 @@
       align-items:center;
       justify-content:center;
     }
+
     .ticker .marquee{
       position:absolute;
       white-space:nowrap;
@@ -395,19 +411,22 @@
       font-size: 14.5px;
       line-height: 1;
     }
-    .ticker .marquee strong{ color: rgba(250,204,21,.95); }
+
+    .ticker .marquee strong{
+      color: rgba(250,204,21,.95);
+    }
+
     @keyframes aceTicker{
       0%{ transform: translateX(0); }
       100%{ transform: translateX(-100%); }
     }
 
-    /* ===== KALENDARZ ===== */
     .calLine2{
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.04);
       border-radius: 18px;
       box-shadow: var(--shadow);
-      padding:12px 12px 12px;
+      padding:12px;
       display:flex;
       flex-direction:column;
       gap:10px;
@@ -532,7 +551,6 @@
       box-shadow: var(--hiShadow);
     }
 
-    /* ===== TOP ROW ===== */
     .topRowGrid{
       display:grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.78fr);
@@ -540,16 +558,17 @@
       margin-top:12px;
       align-items:stretch;
     }
+
     .topRowGrid > div{
       height:100%;
       display:flex;
       min-width:0;
     }
+
     @media (max-width: 1100px){
       .topRowGrid{ grid-template-columns: 1fr; }
     }
 
-    /* ===== FEATURED ===== */
     a.featured{
       width:100%;
       border: 2px solid rgba(125,211,252,.70);
@@ -567,13 +586,17 @@
       height:100%;
       min-height:420px;
     }
+
     a.featured:before{
       content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+        radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
       pointer-events:none;
     }
+
     a.featured > *{ position:relative; }
     a.featured:hover{ transform: translateY(-2px); border-color: rgba(125,211,252,.92); }
 
@@ -592,13 +615,17 @@
       height:100%;
       min-height:420px;
     }
+
     div.featured:before{
       content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+        radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
       pointer-events:none;
     }
+
     div.featured > *{ position:relative; }
 
     .fMetaLine{
@@ -621,28 +648,6 @@
       flex:1 1 auto;
     }
 
-    .fMetaLine .rightBox{
-      display:none;
-    }
-
-    .fUpdToday{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px solid rgba(250,204,21,.70);
-      background: var(--todayYellow);
-      color: var(--todayYellowText);
-      font-weight:950;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.20),
-        0 0 0 1px rgba(250,204,21,.18);
-      white-space:nowrap;
-      flex:0 0 auto;
-      max-width:none;
-    }
-
     .fTitle{
       margin:0;
       font-size:20px;
@@ -653,15 +658,6 @@
       display:flex;
       align-items:flex-start;
     }
-
-    .fNext{
-      margin-top:auto;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,.10);
-      font-size:12px;
-      color: var(--muted2);
-    }
-    .fNext strong{ color: rgba(234,240,255,.92); font-weight:900; }
 
     .fHero{
       margin-top:12px;
@@ -678,21 +674,23 @@
         inset 0 18px 40px rgba(0,0,0,.45),
         0 10px 30px rgba(0,0,0,.35);
     }
+
     .fHeroNote{
       margin-top:8px;
       font-size:12px;
       color: rgba(234,240,255,.62);
     }
 
-    /* ===== PORTFELE FEATURE ===== */
     .portfolioFeatured{
       border:2px solid rgba(250,204,21,.65);
       background: linear-gradient(135deg, rgba(250,204,21,.14), rgba(125,211,252,.08));
       box-shadow: 0 18px 46px rgba(0,0,0,.48);
     }
+
     .portfolioFeatured:hover{
       border-color: rgba(250,204,21,.90);
     }
+
     .portfolioFeatured .fTitle{
       font-size:20px;
       line-height:1.15;
@@ -715,11 +713,13 @@
       background: rgba(255,255,255,.03);
       padding:12px;
     }
+
     .thumbGrid{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap:10px;
     }
+
     @media (max-width: 520px){
       .thumbGrid{ grid-template-columns: 1fr; }
     }
@@ -770,14 +770,6 @@
       gap:8px;
     }
 
-    .thumb .cap span.small{
-      font-weight:800;
-      color: rgba(234,240,255,.60);
-      font-size:11.5px;
-      white-space:nowrap;
-    }
-
-    /* ===== ANALIZA WG ACE ===== */
     a.analysisFeatured{
       width:100%;
       height:100%;
@@ -795,21 +787,22 @@
       display:flex;
       flex-direction:column;
     }
+
     a.analysisFeatured:before{
       content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
+        radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
       pointer-events:none;
     }
+
     a.analysisFeatured > *{ position:relative; }
+
     a.analysisFeatured:hover{
       transform: translateY(-2px);
       border-color: rgba(125,211,252,.92);
-    }
-
-    .analysisFeatured .fMetaLine{
-      margin-bottom:12px;
     }
 
     .analysisBox{
@@ -840,14 +833,6 @@
       line-height:1.45;
     }
 
-    .analysisNote{
-      margin-top:0;
-      padding-top:0;
-      border-top:0;
-      font-size:12px;
-      color: rgba(234,240,255,.72);
-    }
-
     .analysisHeroMini{
       margin-top:10px;
       height:96px;
@@ -863,38 +848,44 @@
         0 10px 30px rgba(0,0,0,.28);
     }
 
-    /* ===== QUICK grid ===== */
     .quickGrid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
       gap:12px;
       margin-top:14px;
     }
-    .quickCard{ padding:14px; min-height:140px; }
+
+    .quickCard{
+      padding:14px;
+      min-height:140px;
+    }
+
     .quickCard .title{ font-size:14px; }
     .quickCard .desc{ font-size:12.5px; }
+
     @media (max-width: 1100px){
       .quickGrid{ grid-template-columns: repeat(3, 1fr); }
     }
+
     @media (max-width: 720px){
       .quickGrid{ grid-template-columns: repeat(1, 1fr); }
     }
 
-    /* ===== MONTHLY grid ===== */
     .monthlyGrid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
       gap:12px;
       margin-top:14px;
     }
+
     @media (max-width: 1100px){
       .monthlyGrid{ grid-template-columns: repeat(3, 1fr); }
     }
+
     @media (max-width: 720px){
       .monthlyGrid{ grid-template-columns: 1fr; }
     }
 
-    /* ===== PRICES ===== */
     .panel{
       border:1px solid var(--border);
       background: rgba(255,255,255,.05);
@@ -905,6 +896,7 @@
       position:relative;
       overflow:hidden;
     }
+
     .panel > *{ position:relative; }
 
     .panelHead{
@@ -915,8 +907,21 @@
       min-height:56px;
       margin-bottom:10px;
     }
-    .panelTitle{ margin:0; font-weight:950; font-size:16px; line-height:1.15; }
-    .panelSub{ margin:0; font-size:12px; opacity:.75; line-height:1.2; min-height:14px; }
+
+    .panelTitle{
+      margin:0;
+      font-weight:950;
+      font-size:16px;
+      line-height:1.15;
+    }
+
+    .panelSub{
+      margin:0;
+      font-size:12px;
+      opacity:.75;
+      line-height:1.2;
+      min-height:14px;
+    }
 
     .pricesGrid{
       display:grid;
@@ -925,6 +930,7 @@
       margin-top:14px;
       align-items:stretch;
     }
+
     @media (max-width: 1100px){
       .pricesGrid{ grid-template-columns: 1fr; }
     }
@@ -934,6 +940,7 @@
       border-collapse:separate;
       border-spacing:0 8px;
     }
+
     table.prTable th{
       text-align:left;
       font-size:12px;
@@ -941,6 +948,7 @@
       padding: 0 10px 6px;
       font-weight:900;
     }
+
     table.prTable td{
       padding:12px 10px;
       background: rgba(255,255,255,.04);
@@ -949,17 +957,19 @@
       color: rgba(234,240,255,.92);
       vertical-align:middle;
     }
+
     table.prTable tr td:first-child{ border-radius:14px 0 0 14px; }
     table.prTable tr td:last-child{ border-radius:0 14px 14px 0; }
+
     .right{text-align:right}
 
-    /* ===== Notowania box ===== */
     .quotesBox{
       height:100%;
       display:flex;
       flex-direction:column;
       gap:10px;
     }
+
     .qTitle{
       margin:0;
       font-weight:950;
@@ -967,18 +977,21 @@
       line-height:1.15;
       color:#fff;
     }
+
     .qSub{
       margin:0;
       font-size:12px;
       color: rgba(234,240,255,.60);
       line-height:1.3;
     }
+
     .qLinks{
       display:flex;
       flex-direction:column;
       gap:8px;
       margin-top:6px;
     }
+
     .qLink{
       display:flex;
       align-items:center;
@@ -994,11 +1007,13 @@
       box-shadow: 0 10px 24px rgba(0,0,0,.18);
       transition: transform .08s ease, border-color .08s ease, background .08s ease;
     }
+
     .qLink:hover{
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.20);
       background: rgba(255,255,255,.06);
     }
+
     .qIco{
       width:26px;
       height:26px;
@@ -1011,17 +1026,20 @@
       flex:0 0 auto;
       font-size:13px;
     }
+
     .qTxt{
       display:flex;
       flex-direction:column;
       gap:2px;
       min-width:0;
     }
+
     .qMain{
       overflow:hidden;
       text-overflow:ellipsis;
       white-space:nowrap;
     }
+
     .qSmall{
       font-weight:800;
       color: rgba(234,240,255,.60);
@@ -1034,17 +1052,28 @@
     .error{
       border:1px solid rgba(255,120,120,.25);
       background: rgba(255,120,120,.08);
-      padding:12px 14px; border-radius:14px; color:rgba(255,220,220,.92);
+      padding:12px 14px;
+      border-radius:14px;
+      color:rgba(255,220,220,.92);
       margin-top:14px;
       font-size:13px;
       box-shadow: var(--shadow);
       white-space:pre-wrap;
     }
 
-    footer{margin-top:18px; color:var(--muted2); font-size:12px}
-    code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.10)}
+    footer{
+      margin-top:18px;
+      color:var(--muted2);
+      font-size:12px;
+    }
 
-    /* ===== Responsive header ===== */
+    code{
+      background:rgba(255,255,255,.06);
+      padding:2px 6px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10)
+    }
+
     @media (max-width: 720px){
       .topTitle{ font-size:28px; }
       .headerRow{
@@ -1061,7 +1090,6 @@
       .userBar{ justify-content:center; }
     }
 
-    /* ===== PORTFELE: maksymalizacja miniaturek ===== */
     .pHeroTight{
       margin-top:10px;
       padding:10px;
@@ -1099,31 +1127,131 @@
       font-size:11px;
       line-height:1.1;
     }
-    .thumbGridBig .thumb .cap .small{ display:none; }
 
-    #featuredWrap .featured .fHero{
-      flex:0 0 auto;
-    }
-
-    #featuredWrap .featured .fHeroNote{
-      flex:0 0 auto;
-    }
-
-    #featuredWrap .featured .fNext{
-      margin-top:auto;
-    }
-
+    #featuredWrap .featured .fHero{ flex:0 0 auto; }
+    #featuredWrap .featured .fHeroNote{ flex:0 0 auto; }
+    #featuredWrap .featured .fNext{ margin-top:auto; }
     #portfolioWrap .featured,
-    #analysisAceWrap .analysisFeatured{
-      height:100%;
+    #analysisAceWrap .analysisFeatured{ height:100%; }
+    #portfolioWrap .pHero{ margin-top:12px; }
+    #analysisAceWrap .analysisBox{ height:100%; }
+
+    /* ===== WATERMARKS ===== */
+    .hasWatermark::after{
+      content:"";
+      position:absolute;
+      right:-8px;
+      bottom:-8px;
+      width:58%;
+      height:62%;
+      opacity:.16;
+      pointer-events:none;
+      z-index:1;
+      border-radius:18px;
+      background-repeat:no-repeat;
+      background-position:right bottom;
+      background-size:100% 100%;
     }
 
-    #portfolioWrap .pHero{
-      margin-top:12px;
+    .quickWatermark::after{
+      width:58%;
+      height:58%;
+      opacity:.17;
     }
 
-    #analysisAceWrap .analysisBox{
-      height:100%;
+    .monthlyWatermark::after{
+      width:56%;
+      height:60%;
+      opacity:.14;
+    }
+
+    /* tygodniowy – górna opcja */
+    .wm-weekly-funds::after{
+      background-image:
+        linear-gradient(180deg, transparent 0 78%, rgba(125,211,252,.24) 78% 79%, transparent 79%),
+        linear-gradient(120deg, transparent 14%, rgba(125,211,252,.32) 14% 15%, transparent 15%),
+        linear-gradient(120deg, transparent 31%, rgba(167,139,250,.26) 31% 32%, transparent 32%),
+        linear-gradient(120deg, transparent 49%, rgba(125,211,252,.28) 49% 50%, transparent 50%),
+        linear-gradient(120deg, transparent 67%, rgba(167,139,250,.24) 67% 68%, transparent 68%),
+        linear-gradient(120deg, transparent 84%, rgba(125,211,252,.24) 84% 85%, transparent 85%);
+    }
+
+    .wm-weekly-weather::after{
+      background-image:
+        radial-gradient(circle at 24% 72%, rgba(125,211,252,.22) 0 16%, transparent 17%),
+        radial-gradient(circle at 54% 56%, rgba(167,139,250,.18) 0 14%, transparent 15%),
+        radial-gradient(circle at 80% 34%, rgba(125,211,252,.16) 0 12%, transparent 13%),
+        linear-gradient(145deg, transparent 54%, rgba(125,211,252,.18) 54% 55%, transparent 55%),
+        linear-gradient(145deg, transparent 70%, rgba(167,139,250,.14) 70% 71%, transparent 71%);
+    }
+
+    .wm-weekly-charts::after{
+      background-image:
+        linear-gradient(180deg, transparent 0 80%, rgba(125,211,252,.20) 80% 81%, transparent 81%),
+        linear-gradient(135deg, transparent 10%, rgba(125,211,252,.28) 10% 11%, transparent 11%),
+        linear-gradient(135deg, transparent 24%, rgba(167,139,250,.24) 24% 25%, transparent 25%),
+        linear-gradient(135deg, transparent 40%, rgba(125,211,252,.24) 40% 41%, transparent 41%),
+        linear-gradient(135deg, transparent 55%, rgba(167,139,250,.22) 55% 56%, transparent 56%),
+        linear-gradient(135deg, transparent 72%, rgba(125,211,252,.20) 72% 73%, transparent 73%);
+    }
+
+    .wm-weekly-portfolio::after{
+      background-image:
+        radial-gradient(circle at 64% 58%, transparent 0 20%, rgba(125,211,252,.22) 20% 21%, transparent 21% 100%),
+        linear-gradient(90deg, transparent 0 58%, rgba(167,139,250,.18) 58% 59%, transparent 59%),
+        linear-gradient(0deg, transparent 0 56%, rgba(125,211,252,.18) 56% 57%, transparent 57%),
+        linear-gradient(140deg, transparent 58%, rgba(125,211,252,.18) 58% 59%, transparent 59%);
+    }
+
+    .wm-weekly-stats::after{
+      background-image:
+        linear-gradient(180deg, transparent 0 80%, rgba(125,211,252,.18) 80% 81%, transparent 81%),
+        repeating-linear-gradient(90deg,
+          transparent 0 10px,
+          rgba(125,211,252,.16) 10px 12px,
+          transparent 12px 26px),
+        linear-gradient(150deg, transparent 40%, rgba(167,139,250,.18) 40% 41%, transparent 41%);
+    }
+
+    /* miesięczny – bezpieczna opcja, tylko watermark */
+    .wm-monthly-index::after{
+      background-image:
+        linear-gradient(180deg, transparent 0 80%, rgba(125,211,252,.18) 80% 81%, transparent 81%),
+        linear-gradient(140deg, transparent 18%, rgba(125,211,252,.24) 18% 19%, transparent 19%),
+        linear-gradient(140deg, transparent 36%, rgba(167,139,250,.18) 36% 37%, transparent 37%),
+        linear-gradient(140deg, transparent 58%, rgba(125,211,252,.20) 58% 59%, transparent 59%),
+        linear-gradient(140deg, transparent 78%, rgba(167,139,250,.16) 78% 79%, transparent 79%);
+    }
+
+    .wm-monthly-igc::after{
+      background-image:
+        linear-gradient(90deg, transparent 0 66%, rgba(125,211,252,.18) 66% 67%, transparent 67%),
+        linear-gradient(60deg, transparent 58%, rgba(125,211,252,.18) 58% 59%, transparent 59%),
+        linear-gradient(120deg, transparent 58%, rgba(125,211,252,.18) 58% 59%, transparent 59%),
+        linear-gradient(60deg, transparent 72%, rgba(167,139,250,.14) 72% 73%, transparent 73%),
+        linear-gradient(120deg, transparent 72%, rgba(167,139,250,.14) 72% 73%, transparent 73%);
+    }
+
+    .wm-monthly-wasde::after{
+      background-image:
+        linear-gradient(90deg, transparent 0 34%, rgba(125,211,252,.16) 34% 35%, transparent 35% 64%, rgba(125,211,252,.16) 64% 65%, transparent 65%),
+        linear-gradient(180deg, transparent 0 28%, rgba(167,139,250,.14) 28% 29%, transparent 29% 52%, rgba(167,139,250,.14) 52% 53%, transparent 53% 76%, rgba(167,139,250,.14) 76% 77%, transparent 77%),
+        linear-gradient(180deg, rgba(125,211,252,.10), rgba(125,211,252,0));
+    }
+
+    .wm-monthly-fao::after{
+      background-image:
+        radial-gradient(circle at 66% 58%, transparent 0 22%, rgba(125,211,252,.18) 22% 23%, transparent 23% 100%),
+        radial-gradient(circle at 66% 58%, transparent 0 12%, rgba(167,139,250,.12) 12% 13%, transparent 13% 100%),
+        linear-gradient(90deg, transparent 0 66%, rgba(125,211,252,.14) 66% 67%, transparent 67%),
+        linear-gradient(0deg, transparent 0 58%, rgba(125,211,252,.12) 58% 59%, transparent 59%);
+    }
+
+    .wm-monthly-ratio::after{
+      background-image:
+        linear-gradient(135deg, transparent 18%, rgba(125,211,252,.24) 18% 19%, transparent 19%),
+        linear-gradient(45deg, transparent 18%, rgba(167,139,250,.22) 18% 19%, transparent 19%),
+        linear-gradient(180deg, transparent 0 80%, rgba(125,211,252,.16) 80% 81%, transparent 81%);
     }
   </style>
 </head>
@@ -1301,8 +1429,6 @@
     const ANALYSIS_ACE_KEY = "ACE Market View";
     const ANALYSIS_ACE_FALLBACK_PATH = "raporty/analiza-ace/";
 
-    const PORTFOLIO_PAGE_MODE = "hash";
-
     const PORTFOLIO_THUMBS = [
       { label:"Śruta sojowa",    img:"portfele/soymeal.png",  hash:"#soymeal" },
       { label:"USD/PLN",         img:"portfele/usdpln.png",   hash:"#usdpln" },
@@ -1322,7 +1448,7 @@
     const EXTRA_MONTHLY_CARD = {
       id: "Wskaźniki",
       name: "Wskaźniki",
-      description: "Analiza relacji cenowych między surowcami<br>i wskaźników względem ceny.",
+      description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
       path: "raporty/analizy-stat-tech/ratio/",
       updated: "",
       next_issue: ""
@@ -1424,6 +1550,30 @@
       }));
     }
 
+    function weeklyWatermarkClass(item){
+      const key = `${item.id || ""} ${item.name || ""}`.toLowerCase();
+
+      if(key.includes("fundusz")) return "wm-weekly-funds";
+      if(key.includes("pogoda")) return "wm-weekly-weather";
+      if(key.includes("wykresach")) return "wm-weekly-charts";
+      if(key.includes("portfele")) return "wm-weekly-portfolio";
+      if(key.includes("statystyczno")) return "wm-weekly-stats";
+
+      return "wm-weekly-charts";
+    }
+
+    function monthlyWatermarkClass(item){
+      const key = `${item.id || ""} ${item.name || ""}`.toLowerCase();
+
+      if(key.includes("index")) return "wm-monthly-index";
+      if(key.includes("igc")) return "wm-monthly-igc";
+      if(key.includes("wasde")) return "wm-monthly-wasde";
+      if(key.includes("fao")) return "wm-monthly-fao";
+      if(key.includes("wska") || key.includes("ratio")) return "wm-monthly-ratio";
+
+      return "wm-monthly-index";
+    }
+
     function renderTodayTicker(items, scan){
       const box = document.getElementById("todayTicker");
       const today = todayISO();
@@ -1432,16 +1582,19 @@
       const todayScan = pickTodayFromScan(scan);
       if(todayScan && todayScan.date === today) porannyToday = true;
 
-      const updatedToday = items
-        .filter(x => (x.updated || "") === today);
+      const updatedToday = items.filter(x => (x.updated || "") === today);
 
       const names = [];
       const used = new Set();
 
       if(porannyToday){
-        const ps = items.find(x=>x.id === FEATURED_KEY);
-        if(ps){ names.push(ps.name); used.add(ps.id); }
+        const ps = items.find(x => x.id === FEATURED_KEY);
+        if(ps){
+          names.push(ps.name);
+          used.add(ps.id);
+        }
       }
+
       for(const it of updatedToday){
         if(used.has(it.id)) continue;
         names.push(it.name);
@@ -1735,13 +1888,13 @@
         </div>
       `;
 
-      wrap.querySelectorAll(".calPill[data-href]").forEach(el=>{
+      wrap.querySelectorAll(".calPill[data-href]").forEach(el => {
         const go = () => {
           const href = el.getAttribute("data-href");
           if(href) window.location.href = href;
         };
         el.addEventListener("click", go);
-        el.addEventListener("keydown", (e)=>{
+        el.addEventListener("keydown", (e) => {
           if(e.key === "Enter" || e.key === " "){
             e.preventDefault();
             go();
@@ -1764,7 +1917,7 @@
         return;
       }
 
-      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+      const list = [...listRaw].sort((a,b) => parseISO(b.updated) - parseISO(a.updated));
 
       function childrenOf(folder){
         const folderPath = (folder.path || "").toString();
@@ -1810,9 +1963,7 @@
           .filter(d => parseISO(d) >= parseISO(today))
           .sort((a,b)=>parseISO(a)-parseISO(b))[0] || "";
 
-        const todayCount = kids.filter(k => (k.updated || "") === today).length;
-
-        return { updISO, nextISO, todayCount };
+        return { updISO, nextISO, todayCount:0 };
       }
 
       wrap.innerHTML = list.map(r => {
@@ -1831,6 +1982,7 @@
         const nxt = nxtISO ? fmtDatePL(nxtISO) : "—";
 
         const clsToday = isToday(updISO) ? "today" : "";
+        const wmClass = weeklyWatermarkClass(r);
 
         const updBadge = updISO
           ? (isToday(updISO)
@@ -1839,7 +1991,7 @@
           : "";
 
         return `
-          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+          <a class="card quickCard hasWatermark quickWatermark ${wmClass} ${clsToday}" href="${safePath(r.path)}">
             <div class="topMeta">
               ${updBadge}
             </div>
@@ -1897,12 +2049,13 @@
         return;
       }
 
-      const list = [...listRaw].sort((a,b)=>parseISO(b.updated)-parseISO(a.updated));
+      const list = [...listRaw].sort((a,b) => parseISO(b.updated) - parseISO(a.updated));
 
       wrap.innerHTML = list.map(r => {
         const updISO = (r.updated || "").trim();
         const upd = updISO ? fmtDatePL(updISO) : "—";
         const clsToday = isToday(updISO) ? "today" : "";
+        const wmClass = monthlyWatermarkClass(r);
 
         const updBadge = updISO
           ? (isToday(updISO)
@@ -1911,7 +2064,7 @@
           : "";
 
         return `
-          <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
+          <a class="card quickCard hasWatermark monthlyWatermark ${wmClass} ${clsToday}" href="${safePath(r.path)}">
             <div class="topMeta">${updBadge}</div>
             <p class="title">${r.name}</p>
             <p class="desc">${r.description}</p>
@@ -1940,7 +2093,7 @@
           <th class="right">Zmiana mies.</th>
         </tr>
       `;
-      const body = rows.map(r=>{
+      const body = rows.map(r => {
         const w = arrowCell(r.w);
         const m = arrowCell(r.m);
         return `
@@ -1965,7 +2118,7 @@
           <th class="right">Zmiana mies.</th>
         </tr>
       `;
-      const body = rows.map(r=>{
+      const body = rows.map(r => {
         const w = arrowCell(r.w);
         const m = arrowCell(r.m);
         return `
@@ -2052,8 +2205,11 @@
         }
       } catch(e) {}
 
-      try { await loadPrices(); }
-      catch(e){ showErr("Błąd cenników: " + (e?.message || e)); }
+      try {
+        await loadPrices();
+      } catch(e){
+        showErr("Błąd cenników: " + (e?.message || e));
+      }
 
       try{
         const manifest = await loadManifest();
@@ -2074,6 +2230,5 @@
       }
     })();
   </script>
-
 </body>
 </html>
