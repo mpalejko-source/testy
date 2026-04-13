@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
@@ -61,7 +61,6 @@
       flex-direction:column;
     }
 
-    /* ===== HEADER ===== */
     header{
       display:flex;
       flex-direction:column;
@@ -163,8 +162,7 @@
     a.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.18); }
     a.card{ height:100%; }
     a.card:before, .cardStatic:before{
-      content:"";
-      position:absolute; inset:-1px;
+      content:""; position:absolute; inset:-1px;
       background: radial-gradient(600px 180px at 10% 0%, rgba(125,211,252,.15), transparent 60%),
                   radial-gradient(600px 220px at 90% 0%, rgba(167,139,250,.14), transparent 60%);
       pointer-events:none;
@@ -217,35 +215,7 @@
       background: var(--todayYellow);
       color: var(--todayYellowText);
       font-weight:950;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.20),
-        0 0 0 1px rgba(250,204,21,.18);
-    }
-
-    .bottomBadge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      line-height:1;
-      color: rgba(234,240,255,.92);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      box-shadow: 0 10px 24px rgba(0,0,0,.20);
-      white-space:nowrap;
-      flex:0 0 auto;
-    }
-
-    .bottomBadge.today{
-      border-color: rgba(250,204,21,.70);
-      background: var(--todayYellow);
-      color: var(--todayYellowText);
-      font-weight:950;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.20),
-        0 0 0 1px rgba(250,204,21,.18);
+      box-shadow: 0 10px 24px rgba(0,0,0,.20), 0 0 0 1px rgba(250,204,21,.18);
     }
 
     .title{margin:0; font-size:16px; font-weight:950; line-height:1.15; color:#fff}
@@ -464,9 +434,7 @@
       gap:10px;
     }
 
-    @media (max-width: 900px){
-      .calRow{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 900px){ .calRow{ grid-template-columns: 1fr; } }
 
     .calPill{
       width:100%;
@@ -539,11 +507,9 @@
       display:flex;
       min-width:0;
     }
-    @media (max-width: 1100px){
-      .topRowGrid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1100px){ .topRowGrid{ grid-template-columns: 1fr; } }
 
-    a.featured{
+    a.featured, div.featured{
       width:100%;
       border: 2px solid rgba(125,211,252,.70);
       border-radius: var(--radius);
@@ -552,47 +518,21 @@
       padding:18px 18px 16px;
       position:relative;
       overflow:hidden;
-      text-decoration:none;
-      color:inherit;
-      transition: transform .08s ease, border-color .08s ease;
       display:flex;
       flex-direction:column;
       height:100%;
       min-height:420px;
+      color:inherit;
     }
-    a.featured:before{
-      content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
-                  radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
-      pointer-events:none;
-    }
-    a.featured > *{ position:relative; }
+    a.featured{text-decoration:none; transition: transform .08s ease, border-color .08s ease;}
     a.featured:hover{ transform: translateY(-2px); border-color: rgba(125,211,252,.92); }
-
-    div.featured{
-      width:100%;
-      border: 2px solid rgba(125,211,252,.70);
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(125,211,252,.18), rgba(167,139,250,.10));
-      box-shadow: 0 18px 46px rgba(0,0,0,.48);
-      padding:18px 18px 16px;
-      position:relative;
-      overflow:hidden;
-      color:inherit;
-      display:flex;
-      flex-direction:column;
-      height:100%;
-      min-height:420px;
-    }
-    div.featured:before{
-      content:"";
-      position:absolute; inset:-1px;
+    a.featured:before, div.featured:before{
+      content:""; position:absolute; inset:-1px;
       background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
                   radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
       pointer-events:none;
     }
-    div.featured > *{ position:relative; }
+    a.featured > *, div.featured > *{ position:relative; }
 
     .fMetaLine{
       display:flex;
@@ -614,28 +554,6 @@
       flex:1 1 auto;
     }
 
-    .fMetaLine .rightBox{
-      display:none;
-    }
-
-    .fUpdToday{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px solid rgba(250,204,21,.70);
-      background: var(--todayYellow);
-      color: var(--todayYellowText);
-      font-weight:950;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.20),
-        0 0 0 1px rgba(250,204,21,.18);
-      white-space:nowrap;
-      flex:0 0 auto;
-      max-width:none;
-    }
-
     .fTitle{
       margin:0;
       font-size:20px;
@@ -647,29 +565,16 @@
       align-items:flex-start;
     }
 
-    .fNext{
-      margin-top:auto;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,.10);
-      font-size:12px;
-      color: var(--muted2);
-    }
-    .fNext strong{ color: rgba(234,240,255,.92); font-weight:900; }
-
     .fHero{
       margin-top:12px;
       height:145px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
-      background:
-        linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)),
-        url("");
+      background: linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.55)), url("");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      box-shadow:
-        inset 0 18px 40px rgba(0,0,0,.45),
-        0 10px 30px rgba(0,0,0,.35);
+      box-shadow: inset 0 18px 40px rgba(0,0,0,.45), 0 10px 30px rgba(0,0,0,.35);
     }
     .fHeroNote{
       margin-top:8px;
@@ -682,9 +587,7 @@
       background: linear-gradient(135deg, rgba(250,204,21,.14), rgba(125,211,252,.08));
       box-shadow: 0 18px 46px rgba(0,0,0,.48);
     }
-    .portfolioFeatured:hover{
-      border-color: rgba(250,204,21,.90);
-    }
+    .portfolioFeatured:hover{ border-color: rgba(250,204,21,.90); }
     .portfolioFeatured .fTitle{
       font-size:20px;
       line-height:1.15;
@@ -712,9 +615,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap:10px;
     }
-    @media (max-width: 520px){
-      .thumbGrid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 520px){ .thumbGrid{ grid-template-columns: 1fr; } }
 
     .thumb{
       display:block;
@@ -731,9 +632,7 @@
 
     .thumbToday{
       border:1px solid rgba(250,204,21,.75) !important;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,.22),
-        0 0 0 1px rgba(250,204,21,.20);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22), 0 0 0 1px rgba(250,204,21,.20);
       background: linear-gradient(180deg, rgba(250,204,21,.10), rgba(255,255,255,.03));
     }
 
@@ -762,13 +661,6 @@
       gap:8px;
     }
 
-    .thumb .cap span.small{
-      font-weight:800;
-      color: rgba(234,240,255,.60);
-      font-size:11.5px;
-      white-space:nowrap;
-    }
-
     a.analysisFeatured{
       width:100%;
       height:100%;
@@ -787,21 +679,13 @@
       flex-direction:column;
     }
     a.analysisFeatured:before{
-      content:"";
-      position:absolute; inset:-1px;
+      content:""; position:absolute; inset:-1px;
       background: radial-gradient(680px 220px at 10% 0%, rgba(125,211,252,.18), transparent 60%),
                   radial-gradient(680px 260px at 90% 0%, rgba(167,139,250,.16), transparent 60%);
       pointer-events:none;
     }
     a.analysisFeatured > *{ position:relative; }
-    a.analysisFeatured:hover{
-      transform: translateY(-2px);
-      border-color: rgba(125,211,252,.92);
-    }
-
-    .analysisFeatured .fMetaLine{
-      margin-bottom:12px;
-    }
+    a.analysisFeatured:hover{ transform: translateY(-2px); border-color: rgba(125,211,252,.92); }
 
     .analysisBox{
       flex:1;
@@ -831,27 +715,15 @@
       line-height:1.45;
     }
 
-    .analysisNote{
-      margin-top:0;
-      padding-top:0;
-      border-top:0;
-      font-size:12px;
-      color: rgba(234,240,255,.72);
-    }
-
     .analysisHeroMini{
       margin-top:10px;
       height:96px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
-      background-image:
-        linear-gradient(rgba(11,18,32,.35), rgba(11,18,32,.55)),
-        url("raporty/analiza-ace/analiza-ace-chart.jpg");
+      background-image: linear-gradient(rgba(11,18,32,.35), rgba(11,18,32,.55)), url("raporty/analiza-ace/analiza-ace-chart.jpg");
       background-size:cover;
       background-position:center;
-      box-shadow:
-        inset 0 18px 40px rgba(0,0,0,.38),
-        0 10px 30px rgba(0,0,0,.28);
+      box-shadow: inset 0 18px 40px rgba(0,0,0,.38), 0 10px 30px rgba(0,0,0,.28);
     }
 
     .quickGrid{
@@ -863,12 +735,8 @@
     .quickCard{ padding:14px; min-height:140px; }
     .quickCard .title{ font-size:14px; }
     .quickCard .desc{ font-size:12.5px; }
-    @media (max-width: 1100px){
-      .quickGrid{ grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 720px){
-      .quickGrid{ grid-template-columns: repeat(1, 1fr); }
-    }
+    @media (max-width: 1100px){ .quickGrid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px){ .quickGrid{ grid-template-columns: repeat(1, 1fr); } }
 
     .monthlyGrid{
       display:grid;
@@ -876,12 +744,8 @@
       gap:12px;
       margin-top:14px;
     }
-    @media (max-width: 1100px){
-      .monthlyGrid{ grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 720px){
-      .monthlyGrid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1100px){ .monthlyGrid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px){ .monthlyGrid{ grid-template-columns: 1fr; } }
 
     .panel{
       border:1px solid var(--border);
@@ -913,29 +777,38 @@
       margin-top:14px;
       align-items:stretch;
     }
-    @media (max-width: 1100px){
-      .pricesGrid{ grid-template-columns: 1fr; }
+    @media (max-width: 1100px){ .pricesGrid{ grid-template-columns: 1fr; } }
+
+    .tableScroll{
+      overflow-x:auto;
+      -webkit-overflow-scrolling: touch;
+      margin:0 -2px;
+      padding-bottom:2px;
     }
 
     table.prTable{
       width:100%;
+      min-width:680px;
       border-collapse:separate;
       border-spacing:0 8px;
     }
     table.prTable th{
       text-align:left;
-      font-size:12px;
+      font-size:11px;
       color: var(--muted2);
-      padding: 0 10px 6px;
+      padding: 0 8px 6px;
       font-weight:900;
+      letter-spacing:.02em;
+      white-space:nowrap;
     }
     table.prTable td{
-      padding:12px 10px;
+      padding:10px 8px;
       background: rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.08);
-      font-size:13px;
+      font-size:12px;
       color: rgba(234,240,255,.92);
       vertical-align:middle;
+      white-space:nowrap;
     }
     table.prTable tr td:first-child{ border-radius:14px 0 0 14px; }
     table.prTable tr td:last-child{ border-radius:0 14px 14px 0; }
@@ -1084,32 +957,10 @@
       font-size:11px;
       line-height:1.1;
     }
-    .thumbGridBig .thumb .cap .small{ display:none; }
 
-    #featuredWrap .featured .fHero{
-      flex:0 0 auto;
-    }
-
-    #featuredWrap .featured .fHeroNote{
-      flex:0 0 auto;
-    }
-
-    #featuredWrap .featured .fNext{
-      margin-top:auto;
-    }
-
-    #portfolioWrap .featured,
-    #analysisAceWrap .analysisFeatured{
-      height:100%;
-    }
-
-    #portfolioWrap .pHero{
-      margin-top:12px;
-    }
-
-    #analysisAceWrap .analysisBox{
-      height:100%;
-    }
+    #portfolioWrap .featured, #analysisAceWrap .analysisFeatured{ height:100%; }
+    #portfolioWrap .pHero{ margin-top:12px; }
+    #analysisAceWrap .analysisBox{ height:100%; }
   </style>
 </head>
 
@@ -1167,7 +1018,9 @@
           <div class="panelTitle">Ceny najważniejszych surowców rolniczych</div>
           <div class="panelSub" id="pricesAsOf">Aktualizacja: —</div>
         </div>
-        <table id="cashTable" class="prTable"></table>
+        <div class="tableScroll">
+          <table id="cashTable" class="prTable"></table>
+        </div>
         <div style="margin-top:8px;font-size:12px;color:rgba(234,240,255,.55)">Źródło: ACE Group • rynek spot</div>
       </section>
 
@@ -1176,7 +1029,9 @@
           <div class="panelTitle">Ceny giełdowe (close)</div>
           <div class="panelSub" id="futuresAsOf">&nbsp;</div>
         </div>
-        <table id="futuresTable" class="prTable"></table>
+        <div class="tableScroll">
+          <table id="futuresTable" class="prTable"></table>
+        </div>
         <div style="margin-top:8px;font-size:12px;color:rgba(234,240,255,.55)">Źródło: ACE Group • futures</div>
       </section>
 
@@ -1285,8 +1140,6 @@
     const PORTFOLIO_KEY = "Portfele-ACE";
     const ANALYSIS_ACE_KEY = "ACE Market View";
     const ANALYSIS_ACE_FALLBACK_PATH = "raporty/analiza-ace/";
-
-    const PORTFOLIO_PAGE_MODE = "hash";
 
     const PORTFOLIO_THUMBS = [
       { label:"Śruta sojowa",    img:"portfele/soymeal.png",  hash:"#soymeal" },
@@ -1417,8 +1270,7 @@
       const todayScan = pickTodayFromScan(scan);
       if(todayScan && todayScan.date === today) porannyToday = true;
 
-      const updatedToday = items
-        .filter(x => (x.updated || "") === today);
+      const updatedToday = items.filter(x => (x.updated || "") === today);
 
       const names = [];
       const used = new Set();
@@ -1645,18 +1497,10 @@
       const jsDay = now.getDay();
       const isoDay = (jsDay === 0) ? 7 : jsDay;
 
-      const monday = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() - (isoDay - 1)
-      );
+      const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (isoDay - 1));
 
       function dateForDow(dow){
-        return new Date(
-          monday.getFullYear(),
-          monday.getMonth(),
-          monday.getDate() + (dow - 1)
-        );
+        return new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + (dow - 1));
       }
 
       function fmtDDMM(dt){
@@ -1670,7 +1514,6 @@
         const monMM = String(mon.getMonth()+1).padStart(2,"0");
         const friDD = String(fri.getDate()).padStart(2,"0");
         const friMM = String(fri.getMonth()+1).padStart(2,"0");
-
         if(monMM === friMM) return `${monDD}–${friDD}.${friMM}`;
         return `${monDD}.${monMM}–${friDD}.${friMM}`;
       }
@@ -1679,20 +1522,17 @@
       const weekTo   = dateForDow(5);
       const rangeTxt = fmtRange(weekFrom, weekTo);
 
-      const pillHTML = (r) => {
+      const days = CAL.map(r => {
         const dt = dateForDow(r.dow);
         const ddmm = fmtDDMM(dt);
-
         const titleText = nameOf(r.key);
         const href = pathOf(r.key);
-
         const cls = (r.dow === isoDay) ? "calPill today" : "calPill";
         const dataHref = href ? `data-href="${href}"` : "";
         const tab = href ? `tabindex="0"` : `tabindex="-1"`;
 
         return `
-          <div class="${cls}" role="link" ${tab} ${dataHref}
-               title="${href ? `Otwórz: ${titleText}` : titleText}">
+          <div class="${cls}" role="link" ${tab} ${dataHref} title="${href ? `Otwórz: ${titleText}` : titleText}">
             <div class="top">
               <span class="d">${r.short}</span>
               <span class="dt">${ddmm}</span>
@@ -1700,9 +1540,7 @@
             <div class="n">${titleText}</div>
           </div>
         `;
-      };
-
-      const days = CAL.map(pillHTML).join("");
+      }).join("");
 
       wrap.innerHTML = `
         <div class="calLine2">
@@ -1713,10 +1551,7 @@
             </div>
             <p class="calHdrRange">${rangeTxt}</p>
           </div>
-
-          <div class="calRow">
-            ${days}
-          </div>
+          <div class="calRow">${days}</div>
         </div>
       `;
 
@@ -1753,8 +1588,8 @@
 
       function childrenOf(folder){
         const folderPath = (folder.path || "").toString();
-
         let children = [];
+
         if(folderPath){
           children = items.filter(it =>
             it.type !== "folder" &&
@@ -1796,7 +1631,6 @@
           .sort((a,b)=>parseISO(a)-parseISO(b))[0] || "";
 
         const todayCount = kids.filter(k => (k.updated || "") === today).length;
-
         return { updISO, nextISO, todayCount };
       }
 
@@ -1814,7 +1648,6 @@
 
         const upd = updISO ? fmtDatePL(updISO) : "—";
         const nxt = nxtISO ? fmtDatePL(nxtISO) : "—";
-
         const clsToday = isToday(updISO) ? "today" : "";
 
         const updBadge = updISO
@@ -1825,9 +1658,7 @@
 
         return `
           <a class="card quickCard ${clsToday}" href="${safePath(r.path)}">
-            <div class="topMeta">
-              ${updBadge}
-            </div>
+            <div class="topMeta">${updBadge}</div>
             <p class="title">${r.name}</p>
             <p class="desc">${r.description}</p>
             <div class="metaLine">
@@ -1924,17 +1755,20 @@
         <tr>
           <th>Surowiec</th>
           <th class="right">Cena</th>
+          <th class="right">Zmiana dzienna</th>
           <th class="right">Zmiana tyg.</th>
           <th class="right">Zmiana mies.</th>
         </tr>
       `;
       const body = rows.map(r=>{
+        const d = arrowCell(r.d);
         const w = arrowCell(r.w);
         const m = arrowCell(r.m);
         return `
           <tr>
             <td>${r.name ?? ""}</td>
             <td class="right" style="font-weight:900">${r.price ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
             <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
             <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
           </tr>
@@ -1949,17 +1783,20 @@
         <tr>
           <th>Instrument</th>
           <th class="right">Close</th>
+          <th class="right">Zmiana dzienna</th>
           <th class="right">Zmiana tyg.</th>
           <th class="right">Zmiana mies.</th>
         </tr>
       `;
       const body = rows.map(r=>{
+        const d = arrowCell(r.d);
         const w = arrowCell(r.w);
         const m = arrowCell(r.m);
         return `
           <tr>
             <td>${r.name ?? ""}</td>
             <td class="right" style="font-weight:900">${r.close ?? ""}</td>
+            <td class="right" style="color:${d.col}">${d.sym} ${d.txt}</td>
             <td class="right" style="color:${w.col}">${w.sym} ${w.txt}</td>
             <td class="right" style="color:${m.col}">${m.sym} ${m.txt}</td>
           </tr>
@@ -2053,7 +1890,6 @@
         try { renderFeatured(items, scan); } catch(e) { showErr("Błąd porannego skanu: " + (e?.message || e)); }
         try { renderPortfolioFeatured(items); } catch(e) { showErr("Błąd portfeli ACE (góra): " + (e?.message || e)); }
         try { renderAnalysisAceFeatured(items); } catch(e) { showErr("Błąd Analizy wg ACE: " + (e?.message || e)); }
-
         try { renderQuick(items); } catch(e) { showErr("Błąd raportów tygodniowych: " + (e?.message || e)); }
         try { renderMonthly(items); } catch(e) { showErr("Błąd raportów miesięcznych: " + (e?.message || e)); }
 
