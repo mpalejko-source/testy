@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html> 
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
@@ -132,7 +132,6 @@
       opacity:.9;
     }
 
-    /* ===== Subtelne separatory sekcji ===== */
     .sectionDivider{
       margin:16px 0 6px;
       height:1px;
@@ -147,7 +146,6 @@
     .h2{ margin:0; font-size:20px; font-weight:950; letter-spacing:.2px; }
     .hint{ margin:0; color: var(--muted2); font-size:12px; }
 
-    /* ===== cards base ===== */
     a.card, .cardStatic{
       display:flex;
       flex-direction:column;
@@ -173,7 +171,6 @@
     }
     a.card > *, .cardStatic > *{ position:relative; }
 
-    /* ===== wyróżnienie "today" ===== */
     a.card.today{
       border:2px solid var(--hiBorder);
       background: linear-gradient(135deg, var(--hiBg1), var(--hiBg2));
@@ -277,7 +274,6 @@
     }
     .metaLine strong{color: rgba(234,240,255,.92); font-weight:900;}
 
-    /* ===== Wspólny dolny blok meta dla górnych kafelków ===== */
     .bottomMeta{
       margin-top:auto;
       padding-top:12px;
@@ -321,8 +317,9 @@
     }
 
     .updateLine{
-      margin-top:auto;
-      padding-top:16px;
+      margin-top:16px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.08);
       display:flex;
       justify-content:center;
     }
@@ -348,7 +345,6 @@
       font-weight:900;
     }
 
-    /* ===== TICKER ===== */
     .ticker{
       margin-top:10px;
       border:1px solid rgba(250,204,21,.45);
@@ -401,7 +397,6 @@
       100%{ transform: translateX(-100%); }
     }
 
-    /* ===== KALENDARZ ===== */
     .calLine2{
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.04);
@@ -532,7 +527,6 @@
       box-shadow: var(--hiShadow);
     }
 
-    /* ===== TOP ROW ===== */
     .topRowGrid{
       display:grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.78fr);
@@ -549,7 +543,6 @@
       .topRowGrid{ grid-template-columns: 1fr; }
     }
 
-    /* ===== FEATURED ===== */
     a.featured{
       width:100%;
       border: 2px solid rgba(125,211,252,.70);
@@ -684,7 +677,6 @@
       color: rgba(234,240,255,.62);
     }
 
-    /* ===== PORTFELE FEATURE ===== */
     .portfolioFeatured{
       border:2px solid rgba(250,204,21,.65);
       background: linear-gradient(135deg, rgba(250,204,21,.14), rgba(125,211,252,.08));
@@ -777,7 +769,6 @@
       white-space:nowrap;
     }
 
-    /* ===== ANALIZA WG ACE ===== */
     a.analysisFeatured{
       width:100%;
       height:100%;
@@ -863,7 +854,6 @@
         0 10px 30px rgba(0,0,0,.28);
     }
 
-    /* ===== QUICK grid ===== */
     .quickGrid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
@@ -880,7 +870,6 @@
       .quickGrid{ grid-template-columns: repeat(1, 1fr); }
     }
 
-    /* ===== MONTHLY grid ===== */
     .monthlyGrid{
       display:grid;
       grid-template-columns: repeat(5, 1fr);
@@ -894,7 +883,6 @@
       .monthlyGrid{ grid-template-columns: 1fr; }
     }
 
-    /* ===== PRICES ===== */
     .panel{
       border:1px solid var(--border);
       background: rgba(255,255,255,.05);
@@ -953,7 +941,6 @@
     table.prTable tr td:last-child{ border-radius:0 14px 14px 0; }
     .right{text-align:right}
 
-    /* ===== Notowania box ===== */
     .quotesBox{
       height:100%;
       display:flex;
@@ -1044,7 +1031,6 @@
     footer{margin-top:18px; color:var(--muted2); font-size:12px}
     code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.10)}
 
-    /* ===== Responsive header ===== */
     @media (max-width: 720px){
       .topTitle{ font-size:28px; }
       .headerRow{
@@ -1061,7 +1047,6 @@
       .userBar{ justify-content:center; }
     }
 
-    /* ===== PORTFELE: maksymalizacja miniaturek ===== */
     .pHeroTight{
       margin-top:10px;
       padding:10px;
@@ -1320,10 +1305,10 @@
     const MONTHLY_KEYS = ["wasde","igc","fao","Indexy-światowe"];
 
     const EXTRA_MONTHLY_CARD = {
-      id: "Wskaźniki",
+      id: "wskazniki",
       name: "Wskaźniki",
       description: "Analiza relacji cenowych między surowcami i wskaźników względem ceny.",
-      path: "raporty/analizy-stat-tech/ratio/",
+      path: "raporty-fundamentalne/wskazniki/",
       updated: "",
       next_issue: ""
     };
@@ -1863,33 +1848,36 @@
 
       const listRaw = MONTHLY_KEYS.map(k => pick(k)).filter(Boolean);
 
-      const ratioSource = items.find(x => {
-        const p = safePath(x.path || "");
-        const id = (x.id || "").toString().toLowerCase();
-        const name = (x.name || "").toString().toLowerCase();
-        return /analizy-stat-tech\/ratio\/?$/i.test(p) || id === "ratio" || name === "ratio";
-      });
-
-      const extraCard = {
-        ...EXTRA_MONTHLY_CARD,
-        updated: (ratioSource && ratioSource.updated) ? ratioSource.updated : EXTRA_MONTHLY_CARD.updated
-      };
-
-      const alreadyExists = listRaw.some(r => {
+      const wskaznikiFromManifest = items.find(r => {
         const id = (r.id || "").toString().toLowerCase();
         const name = (r.name || "").toString().toLowerCase();
-        const path = safePath(r.path || "");
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
         return (
-          id === "wskaźniki" ||
           id === "wskazniki" ||
-          name === "wskaźniki" ||
+          id === "wskaźniki" ||
           name === "wskazniki" ||
-          /analizy-stat-tech\/ratio\/?$/i.test(path)
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
         );
       });
 
-      if(!alreadyExists){
-        listRaw.push(extraCard);
+      const alreadyExistsInList = listRaw.some(r => {
+        const id = (r.id || "").toString().toLowerCase();
+        const name = (r.name || "").toString().toLowerCase();
+        const path = (r.path || "").toString().replace(/^\/+|\/+$/g, "").toLowerCase();
+
+        return (
+          id === "wskazniki" ||
+          id === "wskaźniki" ||
+          name === "wskazniki" ||
+          name === "wskaźniki" ||
+          path === "raporty-fundamentalne/wskazniki"
+        );
+      });
+
+      if(!alreadyExistsInList){
+        listRaw.push(wskaznikiFromManifest || EXTRA_MONTHLY_CARD);
       }
 
       if(!listRaw.length){
