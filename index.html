@@ -2003,5 +2003,150 @@
     })();
   </script>
 
+<!-- Gemini Assistant UI -->
+<style>
+  #gemini-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7dd3fc, #a78bfa);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+  #gemini-trigger:hover { transform: scale(1.1); }
+  #gemini-trigger svg { width: 30px; height: 30px; fill: #0b1220; }
+
+  #gemini-chat {
+    position: fixed;
+    bottom: 95px;
+    right: 24px;
+    width: 380px;
+    height: 500px;
+    background: var(--bg);
+    border: 1px solid var(--hiBorder);
+    border-radius: 20px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: var(--hiShadow);
+    overflow: hidden;
+  }
+
+  .chat-header {
+    padding: 16px;
+    background: rgba(125,211,252,0.1);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chat-header h3 { margin: 0; font-size: 14px; color: #7dd3fc; }
+
+  .chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.4; }
+  .msg-bot { background: rgba(255,255,255,0.05); align-self: flex-start; border: 1px solid var(--border); }
+  .msg-user { background: #7dd3fc; color: #0b1220; align-self: flex-end; font-weight: 600; }
+
+  .chat-input {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+  .chat-input input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+  }
+  .chat-input input:focus { border-color: var(--hiBorder); }
+  .chat-input button {
+    background: #7dd3fc;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+</style>
+
+<div id="gemini-chat">
+  <div class="chat-header">
+    <h3>✨ ACE AI Assistant</h3>
+    <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-flow">
+    <div class="msg msg-bot">Witaj! Jestem Twoim asystentem ACE. Jak mogę Ci dzisiaj pomóc w analizie rynku?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="chat-in" placeholder="Zadaj pytanie..." onkeypress="if(event.key==='Enter') sendMsg()">
+    <button onclick="sendMsg()">➔</button>
+  </div>
+</div>
+
+<div id="gemini-trigger" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+</div>
+
+<script>
+  function toggleChat() {
+    const chat = document.getElementById('gemini-chat');
+    chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  function addMsg(text, type) {
+    const flow = document.getElementById('chat-flow');
+    const div = document.createElement('div');
+    div.className = `msg msg-${type}`;
+    div.innerText = text;
+    flow.appendChild(div);
+    flow.scrollTop = flow.scrollHeight;
+  }
+
+  function sendMsg() {
+    const inp = document.getElementById('chat-in');
+    const val = inp.value.trim();
+    if(!val) return;
+
+    addMsg(val, 'user');
+    inp.value = '';
+
+    // Prosta logika "Przewodnika" - możesz ją rozbudować o API Gemini
+    setTimeout(() => {
+      let reply = "Ciekawe pytanie. Jako asystent ACE mogę Ci powiedzieć, że analizy cen znajdziesz w sekcji 'Cenniki i notowania' poniżej.";
+      
+      if(val.toLowerCase().includes("cena") || val.toLowerCase().includes("notowania")) {
+        reply = "Aktualne ceny spot i futures (MATIF/CBOT) znajdują się w środkowej sekcji panelu. Dane są odświeżane zgodnie z komunikatem pod tabelą.";
+      } else if(val.toLowerCase().includes("portfel")) {
+        reply = "Sekcja 'Zakupy ACE' pokazuje nasze rekomendacje portfelowe dla śruty sojowej, rzepakowej oraz kursu USD/PLN.";
+      }
+      
+      addMsg(reply, 'bot');
+    }, 600);
+  }
+</script>
+
+  
 </body>
 </html>
