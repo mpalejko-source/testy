@@ -2003,7 +2003,9 @@
     })();
   </script>
 
-<!-- Gemini Assistant UI -->
+<!-- ====================================================== -->
+<!-- GEMINI ASSISTANT FOR ACE GROUP - FULL COMPONENT        -->
+<!-- ====================================================== -->
 <style>
   #gemini-trigger {
     position: fixed;
@@ -2031,25 +2033,26 @@
     right: 24px;
     width: 380px;
     height: 500px;
-    background: var(--bg);
-    border: 1px solid var(--hiBorder);
+    background: #0b1220; /* Dopasowane do Twojego --bg */
+    border: 1px solid rgba(125,211,252,.70);
     border-radius: 20px;
     display: none;
     flex-direction: column;
     z-index: 1000;
-    box-shadow: var(--hiShadow);
+    box-shadow: 0 18px 46px rgba(0,0,0,0.48);
     overflow: hidden;
+    font-family: Arial, sans-serif;
   }
 
   .chat-header {
     padding: 16px;
     background: rgba(125,211,252,0.1);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,.10);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .chat-header h3 { margin: 0; font-size: 14px; color: #7dd3fc; }
+  .chat-header h3 { margin: 0; font-size: 14px; color: #7dd3fc; letter-spacing: 0.5px; }
 
   .chat-messages {
     flex: 1;
@@ -2059,48 +2062,54 @@
     flex-direction: column;
     gap: 12px;
     font-size: 13px;
+    background: radial-gradient(circle at top right, rgba(167,139,250,0.05), transparent);
   }
 
-  .msg { padding: 10px 14px; border-radius: 14px; max-width: 80%; line-height: 1.4; }
-  .msg-bot { background: rgba(255,255,255,0.05); align-self: flex-start; border: 1px solid var(--border); }
+  .msg { padding: 10px 14px; border-radius: 14px; max-width: 85%; line-height: 1.4; }
+  .msg-bot { background: rgba(255,255,255,0.05); color: #eaf0ff; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1); }
   .msg-user { background: #7dd3fc; color: #0b1220; align-self: flex-end; font-weight: 600; }
 
   .chat-input {
     padding: 16px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(255,255,255,.10);
     display: flex;
     gap: 8px;
+    background: #0b1220;
   }
   .chat-input input {
     flex: 1;
     background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 12px;
     border-radius: 10px;
     color: white;
     outline: none;
+    font-size: 13px;
   }
-  .chat-input input:focus { border-color: var(--hiBorder); }
+  .chat-input input:focus { border-color: #7dd3fc; }
   .chat-input button {
     background: #7dd3fc;
     border: none;
-    padding: 8px 14px;
+    padding: 0 15px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
+    color: #0b1220;
+    transition: opacity 0.2s;
   }
+  .chat-input button:hover { opacity: 0.8; }
 </style>
 
 <div id="gemini-chat">
   <div class="chat-header">
-    <h3>✨ ACE AI Assistant</h3>
-    <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer;">✕</button>
+    <h3>✨ ACE Assistant AI</h3>
+    <button onclick="toggleChat()" style="background:none; border:none; color:rgba(255,255,255,0.5); cursor:pointer; font-size:18px;">✕</button>
   </div>
   <div class="chat-messages" id="chat-flow">
-    <div class="msg msg-bot">Witaj! Jestem Twoim asystentem ACE. Jak mogę Ci dzisiaj pomóc w analizie rynku?</div>
+    <div class="msg msg-bot">Witaj w ACE Group. Jestem Twoim przewodnikiem po panelu. Możesz mnie zapytać o ceny towarów lub dostępność raportów.</div>
   </div>
   <div class="chat-input">
-    <input type="text" id="chat-in" placeholder="Zadaj pytanie..." onkeypress="if(event.key==='Enter') sendMsg()">
+    <input type="text" id="chat-in" placeholder="Wpisz np. 'cena rzepaku'..." onkeypress="if(event.key==='Enter') sendMsg()">
     <button onclick="sendMsg()">➔</button>
   </div>
 </div>
@@ -2112,7 +2121,8 @@
 <script>
   function toggleChat() {
     const chat = document.getElementById('gemini-chat');
-    chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+    chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+    if(chat.style.display === 'flex') document.getElementById('chat-in').focus();
   }
 
   function addMsg(text, type) {
@@ -2124,28 +2134,70 @@
     flow.scrollTop = flow.scrollHeight;
   }
 
-  function sendMsg() {
+  async function sendMsg() {
     const inp = document.getElementById('chat-in');
-    const val = inp.value.trim();
+    const val = inp.value.trim().toLowerCase();
     if(!val) return;
 
-    addMsg(val, 'user');
+    addMsg(inp.value, 'user');
     inp.value = '';
 
-    // Prosta logika "Przewodnika" - możesz ją rozbudować o API Gemini
+    // Pobieranie danych z Twoich plików systemowych
+    let prices = { cash: [], futures: [] };
+    let manifest = [];
+    
+    try {
+      // url() to Twoja funkcja z początku pliku index.html
+      const pRes = await fetch(url("prices.json?ts=" + Date.now()));
+      prices = await pRes.json();
+      const mRes = await fetch(url("manifest.json?ts=" + Date.now()));
+      const mData = await mRes.json();
+      // Konwersja obiektu manifestu na listę dla łatwiejszego szukania
+      manifest = Object.entries(mData).map(([id, r]) => ({ id, ...r }));
+    } catch(e) { 
+      console.error("AI Data Fetch Error:", e); 
+    }
+
+    // Symulacja myślenia i analiza odpowiedzi
     setTimeout(() => {
-      let reply = "Ciekawe pytanie. Jako asystent ACE mogę Ci powiedzieć, że analizy cen znajdziesz w sekcji 'Cenniki i notowania' poniżej.";
-      
-      if(val.toLowerCase().includes("cena") || val.toLowerCase().includes("notowania")) {
-        reply = "Aktualne ceny spot i futures (MATIF/CBOT) znajdują się w środkowej sekcji panelu. Dane są odświeżane zgodnie z komunikatem pod tabelą.";
-      } else if(val.toLowerCase().includes("portfel")) {
-        reply = "Sekcja 'Zakupy ACE' pokazuje nasze rekomendacje portfelowe dla śruty sojowej, rzepakowej oraz kursu USD/PLN.";
+      let reply = "Przepraszam, nie znalazłem konkretnych danych na ten temat. Spróbuj zapytać o konkretny surowiec (np. kukurydza) lub sekcję (np. portfele ACE).";
+
+      // LOGIKA 1: Szukanie CEN w prices.json
+      if(val.includes("cena") || val.includes("ile") || val.includes("notowania") || val.includes("kurs")) {
+        const allPrices = [...(prices.cash || []), ...(prices.futures || [])];
+        const found = allPrices.find(p => val.includes((p.name || "").toLowerCase()));
+        
+        if(found) {
+          const priceVal = found.price || found.close || "—";
+          const change = found.d || found.day || "0";
+          reply = `Aktualna cena/notowanie dla ${found.name} wynosi ${priceVal}. Zmiana: ${change}%. Dane z dnia: ${prices.asof || 'dzisiaj'}.`;
+        } else {
+          reply = "Nie widzę tego towaru w dzisiejszym zestawieniu cen spot i futures. Sprawdź tabelę 'Cenniki i notowania' w panelu głównym.";
+        }
+      } 
+      // LOGIKA 2: Szukanie w RAPORTACH w manifest.json
+      else if(val.includes("raport") || val.includes("kiedy") || val.includes("analiz") || val.includes("monit")) {
+        const report = manifest.find(m => val.includes((m.name || "").toLowerCase()) || val.includes(m.id.toLowerCase()));
+        if(report) {
+          reply = `Raport "${report.name}" został ostatnio zaktualizowany ${report.updated || 'niedawno'}. Kolejna publikacja: ${report.next_issue || 'wkrótce'}.`;
+        } else {
+          reply = "Wszystkie monity tygodniowe i miesięczne znajdziesz w dolnych sekcjach strony. Raport 'ACE Market View' jest dostępny w górnym prawym rogu.";
+        }
       }
-      
+      // LOGIKA 3: Portfele i strategie
+      else if(val.includes("portfel") || val.includes("rekomendac") || val.includes("co kupić")) {
+        reply = "Zalecenia zakupowe ACE znajdują się w sekcji 'Portfele zakupowe ACE' (soja, rzepak, waluty). Są tam aktualne poziomy benchmarkowe.";
+      }
+      // LOGIKA 4: Pomoc ogólna
+      else if(val.includes("pomoc") || val.includes("cześć") || val.includes("witaj")) {
+        reply = "Cześć! Jestem asystentem ACE Group. Pomagam szybko znaleźć ceny surowców (pszenica, rzepak, soja, kukurydza) oraz terminy publikacji raportów.";
+      }
+
       addMsg(reply, 'bot');
-    }, 600);
+    }, 450);
   }
 </script>
+<!-- END OF GEMINI ASSISTANT -->
 
   
 </body>
