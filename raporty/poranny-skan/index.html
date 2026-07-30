@@ -157,11 +157,11 @@
       gap:10px;
     }
 
-    /* Dwa obrazy obok tekstu układają się od razu w jednym rzędzie. */
+    /* Przy długim tekście dwa obrazy po prawej są układane pionowo. */
     .mediaFloat.mediaCount2{
-      width:min(58%, 700px);
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:12px;
+      width:min(38%, 360px);
+      grid-template-columns:1fr;
+      gap:10px;
     }
 
     .mediaBelow{
@@ -461,11 +461,11 @@
     if(e.target.id === "lb" || e.target.id === "lbImg") closeLightbox();
   });
 
-  function mediaCardHtml(src){
+  function mediaCardHtml(src, order=0){
     return `
-      <div class="imgCard">
+      <div class="imgCard" data-media-order="${Number(order) || 0}">
         <img src="${esc(src)}" alt="media" data-zoom="${esc(src)}"
-             onerror="this.closest('.imgCard')?.remove()" />
+             onerror="this.closest('.imgCard')?.remove(); scheduleSmartMediaLayout()" />
       </div>
     `;
   }
@@ -499,6 +499,93 @@
     return `<span class="icons">${icons.map(icon => `<span class="icon">${esc(icon)}</span>`).join("")}</span>`;
   }
 
+  const SMART_LONG_TEXT_LINES = 17;
+  let smartLayoutTimer = null;
+
+  function directChildrenByClass(parent, className){
+    return Array.from(parent.children).filter(el => el.classList && el.classList.contains(className));
+  }
+
+  function orderedMediaCards(body){
+    return Array.from(body.querySelectorAll(".imgCard"))
+      .sort((a, b) => Number(a.dataset.mediaOrder || 0) - Number(b.dataset.mediaOrder || 0));
+  }
+
+  function placeMediaCards(body, sideCount){
+    const textEl = Array.from(body.children).find(el =>
+      el.classList && (el.classList.contains("text") || el.classList.contains("lead"))
+    );
+    if(!textEl) return;
+
+    const cards = orderedMediaCards(body);
+    directChildrenByClass(body, "mediaFloat").forEach(el => el.remove());
+    directChildrenByClass(body, "mediaBelow").forEach(el => el.remove());
+
+    const actualSideCount = Math.max(0, Math.min(sideCount, cards.length));
+    const sideCards = cards.slice(0, actualSideCount);
+    const belowCards = cards.slice(actualSideCount);
+
+    if(sideCards.length){
+      const side = document.createElement("div");
+      side.className = sideCards.length === 2 ? "mediaFloat mediaCount2" : "mediaFloat";
+      sideCards.forEach(card => side.appendChild(card));
+      body.insertBefore(side, textEl);
+    }
+
+    if(belowCards.length){
+      const below = document.createElement("div");
+      below.className = "mediaBelow";
+      belowCards.forEach(card => below.appendChild(card));
+      body.appendChild(below);
+    }
+  }
+
+  function applySmartMediaLayout(body){
+    const count = orderedMediaCards(body).length;
+    if(!count) return;
+
+    // Układy nieparzyste są stałe: 1 obok tekstu, reszta pod tekstem.
+    if(count === 1 || count === 3 || count === 5){
+      placeMediaCards(body, 1);
+      return;
+    }
+
+    // Na telefonie CSS przenosi obrazy pod tekst. Decyzję desktopową
+    // odświeżamy ponownie po powrocie do szerszego widoku.
+    if(window.innerWidth <= 760) return;
+
+    // Najpierw ustawiamy wariant dla długiego tekstu, aby zmierzyć
+    // rzeczywistą liczbę linii w zwężonej kolumnie tekstowej.
+    placeMediaCards(body, 2);
+
+    const textEl = Array.from(body.children).find(el =>
+      el.classList && (el.classList.contains("text") || el.classList.contains("lead"))
+    );
+    if(!textEl) return;
+
+    const styles = window.getComputedStyle(textEl);
+    const lineHeight = parseFloat(styles.lineHeight) || (parseFloat(styles.fontSize) || 14) * 1.6;
+    const lineCount = Math.ceil(textEl.getBoundingClientRect().height / lineHeight);
+    const isLongText = lineCount >= SMART_LONG_TEXT_LINES;
+
+    // Krótki tekst + parzysta liczba obrazów: wszystkie obrazy parami pod tekstem.
+    // Długi tekst + parzysta liczba obrazów: dwa obrazy pionowo po prawej,
+    // a ewentualne kolejne dwa pod tekstem.
+    placeMediaCards(body, isLongText ? 2 : 0);
+    body.dataset.smartLayout = isLongText ? "long" : "short";
+  }
+
+  function applySmartMediaLayouts(){
+    document.querySelectorAll(".articleBody[data-media-count]").forEach(applySmartMediaLayout);
+  }
+
+  function scheduleSmartMediaLayout(){
+    window.clearTimeout(smartLayoutTimer);
+    smartLayoutTimer = window.setTimeout(applySmartMediaLayouts, 40);
+  }
+
+  window.addEventListener("resize", scheduleSmartMediaLayout);
+
   function renderArticleBody(text, textClass, mediaArr, bodyClass=""){
     const media = prepareMedia(mediaArr);
     const textHtml = `<p class="${esc(textClass)}">${esc(text)}</p>`;
@@ -507,29 +594,22 @@
       return `<div class="articleBody ${esc(bodyClass)}">${textHtml}</div>`;
     }
 
-    // Układ automatyczny:
-    // 1 obraz  -> 1 obok tekstu
-    // 2 obrazy -> 2 obok tekstu (jeden pod drugim)
-    // 3 obrazy -> 1 obok tekstu + 2 pod wpisem
-    // 4 obrazy -> 2 obok tekstu + 2 pod wpisem
-    // 5 obrazów-> 1 obok tekstu + 4 pod wpisem (po 2 w rzędzie)
-    const sideCount = media.length <= 2
-      ? media.length
-      : (media.length % 2 === 0 ? 2 : 1);
-
+    // Układ startowy. Po wyrenderowaniu funkcja smart ocenia rzeczywistą
+    // liczbę linii tekstu i w razie potrzeby przenosi parzystą liczbę obrazów.
+    const sideCount = media.length % 2 === 0 ? Math.min(2, media.length) : 1;
     const side = media.slice(0, sideCount);
     const below = media.slice(sideCount);
 
     const sideClass = side.length === 2 ? "mediaFloat mediaCount2" : "mediaFloat";
     const sideHtml = side.length
-      ? `<div class="${sideClass}">${side.map(mediaCardHtml).join("")}</div>`
+      ? `<div class="${sideClass}">${side.map((src, index) => mediaCardHtml(src, index)).join("")}</div>`
       : "";
 
     const belowHtml = below.length
-      ? `<div class="mediaBelow">${below.map(mediaCardHtml).join("")}</div>`
+      ? `<div class="mediaBelow">${below.map((src, index) => mediaCardHtml(src, sideCount + index)).join("")}</div>`
       : "";
 
-    return `<div class="articleBody ${esc(bodyClass)}">${sideHtml}${textHtml}${belowHtml}</div>`;
+    return `<div class="articleBody ${esc(bodyClass)}" data-media-count="${media.length}">${sideHtml}${textHtml}${belowHtml}</div>`;
   }
 
   function section(icon, title, text, mediaArr){
@@ -656,7 +736,11 @@
 
     document.getElementById("main").querySelectorAll("img[data-zoom]").forEach(img=>{
       img.addEventListener("click", ()=>openLightbox(img.dataset.zoom));
+      img.addEventListener("load", scheduleSmartMediaLayout, {once:true});
+      img.addEventListener("error", scheduleSmartMediaLayout, {once:true});
     });
+
+    scheduleSmartMediaLayout();
   }
 
   function renderArchive(){
