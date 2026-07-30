@@ -152,9 +152,16 @@
       float:right;
       width:min(38%, 360px);
       margin:0 0 12px 18px;
-      display:flex;
-      flex-direction:column;
+      display:grid;
+      grid-template-columns:1fr;
       gap:10px;
+    }
+
+    /* Dwa obrazy obok tekstu układają się od razu w jednym rzędzie. */
+    .mediaFloat.mediaCount2{
+      width:min(58%, 700px);
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:12px;
     }
 
     .mediaBelow{
@@ -202,11 +209,13 @@
       .articleBody > .lead{
         order:1;
       }
-      .mediaFloat{
+      .mediaFloat,
+      .mediaFloat.mediaCount2{
         float:none;
         width:100%;
         margin:12px 0 0 0;
         order:2;
+        grid-template-columns:1fr;
       }
       .mediaBelow{
         grid-template-columns:1fr;
@@ -511,8 +520,9 @@
     const side = media.slice(0, sideCount);
     const below = media.slice(sideCount);
 
+    const sideClass = side.length === 2 ? "mediaFloat mediaCount2" : "mediaFloat";
     const sideHtml = side.length
-      ? `<div class="mediaFloat">${side.map(mediaCardHtml).join("")}</div>`
+      ? `<div class="${sideClass}">${side.map(mediaCardHtml).join("")}</div>`
       : "";
 
     const belowHtml = below.length
